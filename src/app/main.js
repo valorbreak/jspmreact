@@ -11,7 +11,7 @@ import './style.css!';
 // Scoped Variables
 let myVar = 'Scoped Variables';
 
-// Immutable variables
+// Immutable variablesjs
 const immutableVar = 'I can\'t be changed';
 
 // Arrow Functions 
@@ -22,7 +22,8 @@ bootstrap();
 WebFont.load({
     google: {
         families: ['Open Sans', 'Droid Serif']
-    }
+    },
+    timeout: 2000 // Set the timeout to two seconds
 });
 
 console.log(immutableVar,'Immutable Variables');
@@ -31,7 +32,7 @@ console.log(newMap(5),'New Maps, Neat!');
 
 class HelloMessage extends React.Component {
     render() {
-        return <div>Hello {this.props.name}</div>
+        return <div>React Shop {this.props.name}</div>
     }
 }
 
