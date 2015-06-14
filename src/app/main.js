@@ -4,6 +4,7 @@ import React from 'react';
 import {bootstrap} from './bootstrap'; // Module-Loader
 
 // Load Assets
+import WebFont from 'webfontloader';
 import 'jspm_packages/github/twbs/bootstrap@3.3.4/css/bootstrap.css!';
 import './style.css!';
 
@@ -17,6 +18,12 @@ const immutableVar = 'I can\'t be changed';
 let newMap = (x) => (x*2);
 
 bootstrap();
+
+WebFont.load({
+    google: {
+        families: ['Open Sans', 'Droid Serif']
+    }
+});
 
 console.log(immutableVar,'Immutable Variables');
 console.log(myVar,'Scoped Variable');

@@ -23,6 +23,7 @@ System.config({
     "css": "github:systemjs/plugin-css@0.1.12",
     "jsx": "github:floatdrop/plugin-jsx@1.1.0",
     "react": "npm:react@0.14.0-alpha3",
+    "webfontloader": "npm:webfontloader@1.6.3",
     "github:floatdrop/plugin-jsx@1.1.0": {
       "react-tools": "npm:react-tools@0.13.3"
     },
@@ -459,6 +460,9 @@ System.config({
     },
     "npm:vm-browserify@0.0.4": {
       "indexof": "npm:indexof@0.0.1"
+    },
+    "npm:webfontloader@1.6.3": {
+      "process": "github:jspm/nodelibs-process@0.1.1"
     }
   }
 });
