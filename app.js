@@ -25,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/react', express.static(path.join(__dirname, 'src')));
+app.use('/react/*', express.static(path.join(__dirname, 'src')));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
