@@ -1,6 +1,9 @@
 node_modules/
 jspm_packages/
 .git/
-oldsrc/
-.swp
+src/oldsrc/
+*.swp
 .idea
+npm-debug.log
+.DS-STORE
+*.map
