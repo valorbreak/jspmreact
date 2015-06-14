@@ -2,6 +2,9 @@
   "jspm": {
     "directories": {},
     "dependencies": {
+      "bootstrap": "github:twbs/bootstrap@^3.3.4",
+      "css": "github:systemjs/plugin-css@^0.1.12",
+      "jsx": "github:floatdrop/plugin-jsx@^1.1.0",
       "react": "npm:react@^0.14.0-alpha3"
     },
     "devDependencies": {

@@ -2,3 +2,5 @@ node_modules/
 jspm_packages/
 .git/
 src/
+.swp
+.idea
