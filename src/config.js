@@ -23,7 +23,8 @@ System.config({
     "css": "github:systemjs/plugin-css@0.1.12",
     "fetch": "github:github/fetch@0.9.0",
     "jsx": "github:floatdrop/plugin-jsx@1.1.0",
-    "react": "npm:react@0.14.0-alpha3",
+    "react": "npm:react@0.13.3",
+    "react-router": "npm:react-router@1.0.0-alpha2",
     "webfontloader": "npm:webfontloader@1.6.3",
     "github:floatdrop/plugin-jsx@1.1.0": {
       "react-tools": "npm:react-tools@0.13.3"
@@ -309,6 +310,10 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
+    "npm:invariant@2.1.0": {
+      "envify": "npm:envify@3.4.0",
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
     "npm:jstransform@10.1.0": {
       "base62": "npm:base62@0.1.1",
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -379,10 +384,22 @@ System.config({
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
+    "npm:react-router@1.0.0-alpha2": {
+      "invariant": "npm:invariant@2.1.0",
+      "keymirror": "npm:keymirror@0.1.1",
+      "qs": "npm:qs@2.4.1",
+      "react": "npm:react@0.13.3",
+      "warning": "npm:warning@1.0.2"
+    },
     "npm:react-tools@0.13.3": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "commoner": "npm:commoner@0.10.1",
       "jstransform": "npm:jstransform@10.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:react@0.13.3": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "envify": "npm:envify@3.4.0",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:react@0.14.0-alpha3": {
@@ -461,6 +478,9 @@ System.config({
     },
     "npm:vm-browserify@0.0.4": {
       "indexof": "npm:indexof@0.0.1"
+    },
+    "npm:warning@1.0.2": {
+      "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:webfontloader@1.6.3": {
       "process": "github:jspm/nodelibs-process@0.1.1"

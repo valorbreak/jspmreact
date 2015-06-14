@@ -3,6 +3,7 @@ jspm_packages/
 .git/
 src/oldsrc/
 src/test_package/
+src/main-bundle.*
 *.swp
 .idea
 npm-debug.log
