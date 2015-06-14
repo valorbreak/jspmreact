@@ -2,33 +2,9 @@
 
 import React from 'react';
 import {bootstrap} from './bootstrap'; // Module-Loader
+import 'fetch'; // Run the Global Variable
 
-// Load Assets
-import WebFont from 'webfontloader';
-import 'jspm_packages/github/twbs/bootstrap@3.3.4/css/bootstrap.css!';
-import './style.css!';
-
-// Scoped Variables
-let myVar = 'Scoped Variables';
-
-// Immutable variablesjs
-const immutableVar = 'I can\'t be changed';
-
-// Arrow Functions 
-let newMap = (x) => (x*2);
-
-bootstrap();
-
-WebFont.load({
-    google: {
-        families: ['Open Sans', 'Droid Serif']
-    },
-    timeout: 2000 // Set the timeout to two seconds
-});
-
-console.log(immutableVar,'Immutable Variables');
-console.log(myVar,'Scoped Variable');
-console.log(newMap(5),'New Maps, Neat!');
+bootstrap();    // Run Asset Loaders
 
 class HelloMessage extends React.Component {
     render() {
@@ -36,5 +12,21 @@ class HelloMessage extends React.Component {
     }
 }
 
-React.render(<HelloMessage name="John" />, document.querySelector('#APP'));
+let dotaData = getDota;
+
+function getDota() {
+    return fetch('http://www.reddit.com/r/dota2.json')
+        .then(function(response) {
+            return response.text();
+        })
+        .then(function(body) {
+            return JSON.parse(body);
+        });
+}
+
+
+dotaData().then(function(data){
+    let kind =  data.kind;
+    React.render(<HelloMessage name={kind} />, document.querySelector('#APP'));
+});
 

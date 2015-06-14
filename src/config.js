@@ -21,6 +21,7 @@ System.config({
     "bootstrap": "github:twbs/bootstrap@3.3.4",
     "core-js": "npm:core-js@0.9.16",
     "css": "github:systemjs/plugin-css@0.1.12",
+    "fetch": "github:github/fetch@0.9.0",
     "jsx": "github:floatdrop/plugin-jsx@1.1.0",
     "react": "npm:react@0.14.0-alpha3",
     "webfontloader": "npm:webfontloader@1.6.3",
