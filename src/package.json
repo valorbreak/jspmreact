@@ -5,7 +5,9 @@
       "bootstrap": "github:twbs/bootstrap@^3.3.4",
       "css": "github:systemjs/plugin-css@^0.1.12",
       "jsx": "github:floatdrop/plugin-jsx@^1.1.0",
-      "react": "npm:react@^0.14.0-alpha3"
+      "react": "npm:react@^0.14.0-alpha3",
+      "systemjs/system-font": "github:systemjs/system-font@^0.1.0",
+      "valorbreak/system-font": "github:valorbreak/system-font@^0.1.0"
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.1.13",

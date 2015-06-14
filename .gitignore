@@ -2,6 +2,7 @@ node_modules/
 jspm_packages/
 .git/
 src/oldsrc/
+src/test_package/
 *.swp
 .idea
 npm-debug.log

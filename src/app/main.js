@@ -5,7 +5,7 @@ import {bootstrap} from './bootstrap'; // Module-Loader
 
 // Load Assets
 import 'jspm_packages/github/twbs/bootstrap@3.3.4/css/bootstrap.css!';
-import './style.css!'
+import './style.css!';
 
 // Scoped Variables
 let myVar = 'Scoped Variables';
