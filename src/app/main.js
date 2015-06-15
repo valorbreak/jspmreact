@@ -8,18 +8,33 @@ import BrowserHistory from 'react-router/lib/BrowserHistory';
 import {bootstrap} from './bootstrap'; // Module-Loader
 import API from './api';
 
-let baseUrl = System.serverBaseUrl; // Set Base Url for Routes - must be the same for jspm
-
+let baseUrl = System.serverBaseUrl + "/"; // Set Base Url for Routes - must be the same for jspm
+console.log(baseUrl,'asdf');
 bootstrap();    // Run Asset Loaders
 
 class HelloMessage extends React.Component {
+    componentDidMount() {
+        let api = new API;      // Classes are created using the `new` keyword
+        let self = this;
+        api.getDota()
+            .then(function(data){
+                self.setState({data: data});
+            });
+    }
     render() {
-        //  this.props.children = children components
+        let content = this.state ? this.state.data[0] : 'Loading';
         return (
             <div>
-                1st Level React Shop
-                <Link to={baseUrl+`/home`}>link here</Link>
-                <div>{this.props.children}</div>
+                <div>Route: {this.props.location.pathname}</div>
+                <div>State: {content}</div>
+                <ul>
+                    <li><Link to={baseUrl}>ROOT</Link></li>
+                    <li><Link to={baseUrl+`home`}>HOME</Link></li>
+                </ul>
+                {/* This only way to pass props to children*/}
+                <div>{this.props.children && React.cloneElement(this.props.children, {
+                    content: content
+                })}</div>
             </div>
         )
     }
@@ -27,10 +42,12 @@ class HelloMessage extends React.Component {
 
 class NiceMessage extends React.Component {
     render() {
+        console.log(this.props,'Nice Message');
         return (
             <div>
-                <Link to={baseUrl+`/home/about`}>link here</Link>
-                2nd Level React NICE {this.props.children}
+                <div><Link to={baseUrl+`home/about`}>About</Link></div>
+                <div>Passed Prop {this.props.content}</div>
+                <div>2nd Level React NICE {this.props.children}</div>
             </div>
         )
     }
@@ -42,7 +59,6 @@ class NiceInside extends React.Component {
         return (
             <div>
                 3rd Level {this.props.children}
-                <Link to={baseUrl+`/home`}>Home</Link>
             </div>
         )
     }
@@ -80,10 +96,4 @@ let rootRouter = (
     <Router children={routes} history={BrowserHistory}></Router>
 );
 
-let api = new API;      // Classes are created using the `new` keyword
-
-api.getDota()
-    .then(function(data){
-        React.render(rootRouter,document.querySelector('#APP'));
-    });
-
+React.render(rootRouter,document.querySelector('#APP'));
