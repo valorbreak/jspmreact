@@ -1,7 +1,7 @@
 // Load Assets
 import WebFont from 'webfontloader';
-import 'jspm_packages/github/twbs/bootstrap@3.3.4/css/bootstrap.css!';
-import './styles/style.css!';
+//import 'jspm_packages/github/twbs/bootstrap@3.3.4/css/bootstrap.css!';
+//import './styles/style.css!';
 
 export function bootstrap() {
 
