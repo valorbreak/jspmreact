@@ -42,7 +42,6 @@ class HelloMessage extends React.Component {
 
 class NiceMessage extends React.Component {
     render() {
-        console.log(this.props,'Nice Message');
         return (
             <div>
                 <div><Link to={baseUrl+`home/about`}>About</Link></div>
