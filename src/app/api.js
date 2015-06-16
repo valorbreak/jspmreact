@@ -1,4 +1,4 @@
-import 'fetch'; // Run the Global Variable
+import 'fetch'; // window.fetch polyfill
 
 class api {
     getDota() {

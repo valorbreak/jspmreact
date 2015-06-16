@@ -7,7 +7,9 @@
 - fetch - a window.fetch Javascript polyfill
 
 # Bundle
-- `jspm bundle app/main main-bundle.js --inject`
+- `jspm bundle app/main main-bundle.js --inject` - Semi Bundle
+- `jspm bundle-sfx app/main app.min.js --minify` - Production Bundle
+
 - unbundle `jspm unbundle`
 
 # Troubleshooting

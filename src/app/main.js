@@ -8,7 +8,9 @@ import BrowserHistory from 'react-router/lib/BrowserHistory';
 import {bootstrap} from './bootstrap'; // Module-Loader
 import API from './api';
 
-let baseUrl = System.serverBaseUrl + "/"; // Set Base Url for Routes - must be the same for jspm
+// Set Base Url for Routes - must be the same for jspm
+// System.serverBaseUrl
+let baseUrl = "/react/";
 
 bootstrap();    // Run Asset Loaders
 
@@ -42,8 +44,9 @@ class Homepage extends React.Component {
                         <Link className="navbar-brand" to={baseUrl}>React Shop</Link>
                     </div>
                 </nav>
-                <div>Route: {this.props.location.pathname}</div>
-                <div>State: {content}</div>
+                <div><strong>Route:</strong> {this.props.location.pathname}</div>
+                <div><strong>Label:</strong> {content}</div>
+                <div>Menu:</div>
                 <ul>
                     <li><Link to={baseUrl}>Root</Link></li>
                     <li><Link to={baseUrl+`home`}>HOME</Link></li>

@@ -4,6 +4,7 @@ jspm_packages/
 src/oldsrc/
 src/test_package/
 src/main-bundle.*
+src/app.min.js
 *.swp
 .idea
 npm-debug.log

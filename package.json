@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "debug": "node ./bin/www --debug"
   },
   "dependencies": {
     "body-parser": "~1.12.4",
@@ -11,6 +12,7 @@
     "debug": "~2.2.0",
     "express": "~4.12.4",
     "hbs": "~2.9.0",
+    "mongodb": "^2.0.33",
     "morgan": "~1.5.3",
     "serve-favicon": "~2.2.1"
   },
