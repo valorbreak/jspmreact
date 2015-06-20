@@ -10,3 +10,4 @@ src/app.min.js
 npm-debug.log
 .DS-STORE
 *.map
+janelia.js

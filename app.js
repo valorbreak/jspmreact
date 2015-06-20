@@ -6,8 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
 var api = require('./routes/api');
+var test = require('./routes/test');
 
 var MongoClient = require('mongodb').MongoClient;
 //var format = require('util').format;
@@ -39,7 +39,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/api', api);
-app.use('/users', users);
+app.use('/test', test);
+
+// Static Files
 app.use('/react', express.static(path.join(__dirname, 'src')));
 app.use('/react/*', express.static(path.join(__dirname, 'src')));
 

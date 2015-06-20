@@ -15,3 +15,9 @@
 # Troubleshooting
 - `Cannot read property '_currentElement' of null` - Means you're running two versions of REACT.
 Make sure react-router is using the same react library.
+
+# Unit Testing
+- `mocha test/*.spec.js`
+
+# Daemon using PM2
+- `pm2 start bin/www`
