@@ -1,3 +1,5 @@
+"use strict";
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -9,21 +11,22 @@ var routes = require('./routes/index');
 var api = require('./routes/api');
 var test = require('./routes/test');
 
-var MongoClient = require('mongodb').MongoClient;
-//var format = require('util').format;
-var mongodbUrl = 'mongodb://127.0.0.1:27017/test';
 
-MongoClient.connect(mongodbUrl, function (err, db) {
-    if (err) {
-        throw err;
-    } else {
-        console.log("Successfully connected to the database");
-    }
-    db.close();
+var mongodb = require('./data/mongoeasy');
+var newDB = mongodb.connect;
+var database;
+
+newDB.then(function(db){
+    database = db;
 });
 
-
 var app = express();
+
+// set the db to be available on all Routes
+app.use(function(req,res,next){
+    req.db = database;
+    next();
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

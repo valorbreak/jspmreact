@@ -21,3 +21,17 @@ Make sure react-router is using the same react library.
 
 # Daemon using PM2
 - `pm2 start bin/www`
+
+# Goals
+- User Management
+- Role Management
+- Session Authentication
+- Basic Page Creation
+- Product Listing
+- Product Catalog
+- Paypal Integraiton
+- Admin Pages
+
+# Technical Goals
+- Reduce Circular Dependencies
+- Use of Promises for Async events

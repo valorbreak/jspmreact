@@ -1,6 +1,7 @@
 node_modules/
 jspm_packages/
 .git/
+garage/
 src/oldsrc/
 src/test_package/
 src/main-bundle.*
