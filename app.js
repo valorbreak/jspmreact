@@ -11,7 +11,6 @@ var routes = require('./routes/index');
 var api = require('./routes/api');
 var test = require('./routes/test');
 
-
 var mongodb = require('./data/mongoeasy');
 var newDB = mongodb.connect;
 var database;

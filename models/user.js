@@ -51,6 +51,7 @@ User.prototype.get = function(user,callback){
 
 
 User.prototype.getAll = function(callback) {
+
 };
 
 User.prototype.save = function(callback) {

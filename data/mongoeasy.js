@@ -14,11 +14,11 @@ var connect = new Promise(function(resolve,reject){
     });
 });
 
-var close = function(){
+var closeConnection = function(){
     mongodb.close();
 };
 
 module.exports = {
     connect: connect,
-    close: close
+    close: closeConnection
 };
