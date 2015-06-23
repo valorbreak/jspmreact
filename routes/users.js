@@ -1,3 +1,5 @@
+"use strict";
+
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
@@ -12,8 +14,22 @@ router.get('/create/:username', function (req, res, next) {
 
     var user = new User(req.db);
     user.username = req.params.username;
-    user.create();
-    res.json(user);
+    user.create(function(err,data){
+        if(err){console.log('Error: '+ err); res.json(err);;}
+        else{
+            res.json(user);
+        }
+    });
+
+    //var userCreated = user.createPromise;
+    //userCreated.then(function(err,res){
+    //    console.log('successfully create user: ' + res);
+    //    res.json(user);
+    //}, function(err,res){
+    //    console.log('Error??: '+ err);
+    //    res.json(err);
+    //});
+
 });
 
 module.exports = router;

@@ -1,5 +1,11 @@
 "use strict";
 
+var Promise = require('promise');
+
+/**
+ * User model
+ */
+
 var db;
 
 var User = function (database) {
@@ -24,13 +30,33 @@ User.prototype.sayHello = function(){
 
 };
 
+User.prototype.load = function(){
+
+};
+
+User.prototype.createPromise = new Promise(function(resolve,reject){
+    this.created = new Date();
+
+    // MongoDB Specific
+    var entity = db.collection('users');
+    entity.insert(this,function(err,res){
+        console.log(err,'error');
+        console.log(res,'response');
+        if (err) {
+            reject(err,res);
+            //return console.log(err);
+        }
+        resolve(err,res);
+    });
+}.bind(this));
+
 User.prototype.create = function(callback) {
     this.created = new Date();
 
     // MongoDB Specific
     var entity = db.collection('users');
     entity.insert(this,function(err,res){
-        //if (err) {db.close(); return console.log(err);}
+        if (err) {console.log(err);}
         if(callback){
             callback(err,res);
         }

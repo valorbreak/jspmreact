@@ -35,3 +35,8 @@ Make sure react-router is using the same react library.
 # Technical Goals
 - Reduce Circular Dependencies
 - Use of Promises for Async events
+
+# Todo:
+- Run install script to setup database configuration
+- Validate database schema
+-

@@ -2,9 +2,13 @@
 var assert = require('assert');
 var User = require('./user');
 
+var MongoClient = require('mongodb').MongoClient;
+
+
 describe('User Model', function(){
     // asynchronous code needs the 'done' parameter
     it('User can be saved', function(){
+
         var user = new User();
         var newUser = user.save();
         assert.equal(newUser.saved,true,'user.save must be true');
