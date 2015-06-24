@@ -6,18 +6,13 @@
 - expressjs - http-server
 - fetch - a window.fetch Javascript polyfill
 
-# Bundle
+# Bundle (on /src)
 - `jspm bundle app/main main-bundle.js --inject` - Semi Bundle
 - `jspm bundle-sfx app/main app.min.js --minify` - Production Bundle
-
 - unbundle `jspm unbundle`
 
-# Troubleshooting
-- `Cannot read property '_currentElement' of null` - Means you're running two versions of REACT.
-Make sure react-router is using the same react library.
-
 # Unit Testing
-- `mocha test/*.spec.js`
+- `mocha /**/*.spec.js`
 
 # Daemon using PM2
 - `pm2 start bin/www`
@@ -29,7 +24,7 @@ Make sure react-router is using the same react library.
 - Basic Page Creation
 - Product Listing
 - Product Catalog
-- Paypal Integraiton
+- Paypal Integration
 - Admin Pages
 
 # Technical Goals
@@ -40,3 +35,25 @@ Make sure react-router is using the same react library.
 - Run install script to setup database configuration
 - Validate database schema
 -
+
+# Sub-goals
+- Pricing Table
+
+# Folder Structure
+```
+- app
+  - controllers
+  - lib
+  - models
+  - public
+  - routes
+  - views
+  - app.js
+  - env.json
+- src (SPA app - could be anything)
+  -
+
+```
+# Troubleshooting
+- `Cannot read property '_currentElement' of null` - Means you're running two versions of REACT.
+Make sure react-router is using the same react library.

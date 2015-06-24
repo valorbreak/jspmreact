@@ -21,15 +21,6 @@ router.get('/create/:username', function (req, res, next) {
         }
     });
 
-    //var userCreated = user.createPromise;
-    //userCreated.then(function(err,res){
-    //    console.log('successfully create user: ' + res);
-    //    res.json(user);
-    //}, function(err,res){
-    //    console.log('Error??: '+ err);
-    //    res.json(err);
-    //});
-
 });
 
 module.exports = router;

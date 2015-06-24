@@ -10,7 +10,7 @@ import API from './api';
 
 // Set Base Url for Routes - must be the same for jspm
 // System.serverBaseUrl
-let baseUrl = "/react/";
+let baseUrl = "/r/";
 
 bootstrap();    // Run Asset Loaders
 

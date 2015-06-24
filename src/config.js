@@ -1,5 +1,5 @@
 System.config({
-  "baseURL": "/react",
+  "baseURL": "/r",
   "transpiler": "babel",
   "babelOptions": {
     "optional": [

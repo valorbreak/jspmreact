@@ -10,6 +10,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var api = require('./routes/api');
 var test = require('./routes/test');
+var env = require('../env.json');
 
 // Database Setup
 var mongodb = require('./lib/mongoeasy');
@@ -45,8 +46,13 @@ app.use('/api', api);
 app.use('/test', test);
 
 // Static Files
-app.use('/react', express.static(path.join(__dirname, 'src')));
-app.use('/react/*', express.static(path.join(__dirname, 'src')));
+//__dirname = current directory where this file is located
+// .
+var spaPath = path.resolve(".") + env.spaDir;
+//var spaPath = path.join(__dirname, env.spaDir);
+console.log('Setting SPA app on: '.cyan + spaPath);
+app.use('/r', express.static(spaPath));
+app.use('/r/*', express.static(spaPath));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

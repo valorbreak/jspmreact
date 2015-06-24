@@ -18,6 +18,9 @@ router.get('/', function (req, res, next) {
             content: data,
             layout: 'newLayout',
             baseUrl: '/react'
+        },
+        function(err,html){
+            console.log(html,'teml');
         });
     });
 });

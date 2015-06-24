@@ -1,6 +1,6 @@
 "use strict";
 var MongoClient = require('mongodb').MongoClient;
-var mongodbUrl = require('../env.json').mongoUrl;
+var mongodbUrl = require('../../env.json').mongoUrl;
 
 var mongodb;
 var db = function(){
