@@ -50,10 +50,9 @@
   - routes
   - views
   - app.js
-  - env.json
 - src (SPA app - could be anything)
   -
-
+- env.json
 ```
 # Troubleshooting
 - `Cannot read property '_currentElement' of null` - Means you're running two versions of REACT.
