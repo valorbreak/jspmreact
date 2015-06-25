@@ -34,6 +34,7 @@
 # Todo:
 - Run install script to setup database configuration
 - Validate database schema
+- Login Authentication and Session Management
 -
 
 # Sub-goals

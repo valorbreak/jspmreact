@@ -7,9 +7,12 @@ var Promise = require('promise');
  */
 
 var db;
+var users;
 
 var User = function (database) {
+    // Mongodb Specific
     db = database;
+    users = db.collection('users');
 
     //this._id = 0;
     //this.uid = 6;
@@ -38,8 +41,7 @@ User.prototype.createPromise = new Promise(function(resolve,reject){
     this.created = new Date();
 
     // MongoDB Specific
-    var entity = db.collection('users');
-    entity.insert(this,function(err,res){
+    users.insert(this,function(err,res){
         console.log(err,'error');
         console.log(res,'response');
         if (err) {
@@ -54,8 +56,7 @@ User.prototype.create = function(callback) {
     this.created = new Date();
 
     // MongoDB Specific
-    var entity = db.collection('users');
-    entity.insert(this,function(err,res){
+    users.insert(this,function(err,res){
         if (err) {console.log(err);}
         if(callback){
             callback(err,res);
@@ -66,8 +67,8 @@ User.prototype.create = function(callback) {
 
 User.prototype.get = function(user,callback){
 
-    var collection = db.collection('users');
-    collection.find(user).toArray(function(err, items) {
+    // Mongodb specific
+    users.find(user).toArray(function(err, items) {
         if(callback){
             callback(items);
         }

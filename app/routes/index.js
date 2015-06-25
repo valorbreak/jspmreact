@@ -3,6 +3,7 @@
 var express = require('express');
 var users = require('./users');
 var router = express.Router();
+var passport = require('passport');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -15,7 +16,7 @@ router.route('/login')
     .get(function (req, res, next) {
         res.render('login', {title: 'Login', baseUrl: '/r',body:'Login'});
     })
-    .post(function (req, res, next) {
+    .post(passport.authenticate('local'), function (req, res, next) {
         console.log(req.body,'nice');
         res.redirect('/?success=true');
     });
@@ -23,7 +24,7 @@ router.route('/login')
 /* GET home page. */
 router.route('/register')
     .get(function (req, res, next) {
-        res.render('register', {title: 'Login', baseUrl: '/r',body:'register'});
+        res.render('login', {title: 'Login', baseUrl: '/r',body:'register'});
     })
     .post(function (req, res, next) {
         console.log(req.body,'nice');

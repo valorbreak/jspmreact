@@ -13,7 +13,7 @@ router.get('/fetch/post', function (req, res, next) {
     api.fetchPost(user).then(function(data){
         console.log(data,'data fetch');
         res.json({'well':'fech'});
-    })
+    });
 });
 
 router.get('/req/post', function (req, res, next) {
