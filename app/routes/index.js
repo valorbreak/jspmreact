@@ -7,7 +7,7 @@ var passport = require('passport');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    res.render('index', {title: 'Dropkick', baseUrl: '/r',body:'nice'});
+    res.render('index', {title: 'Dropkick', baseUrl: '/r',body:'Next Generation CMS'});
 });
 
 
