@@ -19,7 +19,7 @@ describe('User Model - Using MONGODB', function(){
         newDB.then(function(db){
             var user = new User({});
             user.set('username',username);
-            user.create(function(err,res){
+            user.save(function(err,res){
                 if(err){throw err;}
                 assert.equal(res.ops[0].username,username,'Created user must equal test username')
                 done();
@@ -58,16 +58,16 @@ describe('User Model - Using MONGODB', function(){
         });
     });
 
-    //it('User can be deleted from the database', function(done){
-    //    newDB.then(function(db){
-    //        User.findByUsername('saveduser',function(err,res){
-    //            if(res[0]){
-    //                var user = new User(res[0]);
-    //                user.remove();
-    //                done();
-    //            }
-    //        });
-    //    });
-    //})
+    it('User can be deleted from the database', function(done){
+        newDB.then(function(db){
+            User.findByUsername('saveduser',function(err,res){
+                if(res[0]){
+                    var user = new User(res[0]);
+                    user.remove();
+                    done();
+                }
+            });
+        });
+    })
 
 });

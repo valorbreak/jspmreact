@@ -1,6 +1,5 @@
 "use strict";
 
-var _ = require('lodash');
 /**
  * User Functions:
  * var User = require('./user');
@@ -11,6 +10,8 @@ var _ = require('lodash');
  * user.save();
  *
  */
+
+var _ = require('lodash');
 
 var db;
 
@@ -29,16 +30,17 @@ function setDatabase(database, collection){
 }
 
 User.schema = {
+    '_id': null,    // Mongo Specific
     'name': {
         firstName: '',
         lastName: '',
         'middleInitial': ''
     },
-    'username': '',
-    'email': 'n/a',
-    'phoneNumber': 0,
+    'username': null,
+    'email': 'null',
+    'phoneNumber': null,
     'roles': [],
-    'title': '',
+    'title': null,
     'isNew': false,
     'changed': new Date(),
     'created': new Date(),
@@ -53,20 +55,20 @@ User.prototype.set = function (name, value) {
     this.data[name] = value;
 };
 
-User.prototype.create = function(callback) {
-    this.data.changed = new Date();
-    this.data.isNew = true;
-
-    // MongoDB Specific
-    db.insert(this.data,function(err,res){
-        if (err) {console.log(err);}
-
-        console.log(' User Object: Create new user to the database');
-        if(callback){
-            callback(err,res);
-        }
-    });
-};
+//User.prototype.createUser = function(callback) {
+//    this.data.changed = new Date();
+//    this.data.isNew = true;
+//
+//    // MongoDB Specific
+//    db.insert(this.data,function(err,res){
+//        if (err) {console.log(err);}
+//
+//        console.log(' User Object: Create new user to the database');
+//        if(callback){
+//            callback(err,res);
+//        }
+//    });
+//};
 
 User.prototype.save = function(callback){
     this.data.changed = new Date();

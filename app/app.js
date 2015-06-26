@@ -17,8 +17,11 @@ var mongodb = require('./lib/mongoeasy');
 var mongo = mongodb.connect();
 var database;
 
+var User = require('./models/user');
+
 mongo.then(function(db){
     database = db;
+    User.setDatabase(db,'users');
 });
 
 var app = express();
