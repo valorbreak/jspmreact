@@ -62,3 +62,6 @@ Make sure react-router is using the same react library.
 # Code Convention
 - Check for existing object prototypes when creating a new object with new prototypes (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/prototype)
 - Always return after res.json() or equivalent - Prevent responding more than once
+
+# Command Line
+- Commander and Promptly are two different libraries

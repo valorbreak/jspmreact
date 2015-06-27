@@ -6,7 +6,7 @@ var User = require('../models/user');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
-    User.findAll({},function(err,response){
+    User.findAll({}, {limit:10,sort:'username'},function(err,response){
        res.json(response);
     });
 });
