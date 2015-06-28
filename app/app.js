@@ -10,11 +10,11 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var api = require('./routes/api');
 var test = require('./routes/test');
+var authRoutes = require('./routes/auth');
 var usersRoute = require('./routes/users');
 var env = require('../env.json');
 
 var app = express();
-
 
 // Database Setup
 var mongoEZ = require('./lib/mongoeasy');
@@ -31,15 +31,19 @@ var flash = require('connect-flash');
 mongo.then(function(db){
     database = db;
     User.setDatabase(db,'users');
-
 });
 
 // Initialize App SESSION using mongodb
 app.use(session({
     secret: mongoEZ.getSessionSecret(),
-    resave: true,
-    saveUninitialized: true,
-    store: new MongoStore({url: mongoEZ.getCurrentUrl()})
+    name: 'sessid',
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoStore({
+        url: mongoEZ.getCurrentUrl(),
+        ttl: 7 * 24 * 60 * 60, // = 14 days. Default
+        autoRemove: 'native'
+    })
 }));
 
 app.use(flash());
@@ -62,17 +66,31 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Set Template Locals before Routes
+app.use(templateLocals);
+function templateLocals(req,res,next){
+    res.locals.baseUrl = '/r';
+    next();
+}
+
+app.use(authRoutes);
 app.use('/', routes);
 app.use('/users', usersRoute);
 app.use('/api', api);
 app.use('/test', test);
+
+
+function baseUrl(req,res,next) {
+    res.locals.baseUrl = '/r';
+}
+
 
 // Static Files
 //__dirname = current directory where this file is located
 // .
 var spaPath = path.resolve(".") + env.spaDir;
 //var spaPath = path.join(__dirname, env.spaDir);
-console.log('Setting SPA app on: '.cyan + spaPath);
+console.log(' Setting SPA app on: '.cyan + spaPath);
 app.use('/r', express.static(spaPath));
 app.use('/r/*', express.static(spaPath));
 
@@ -87,6 +105,7 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
+console.log(" Environment: ".cyan + app.get('env'));
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);

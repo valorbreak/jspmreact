@@ -25,7 +25,7 @@ function getCurrentUrl() {
 }
 
 function getSessionSecret() {
-    return 'secret';
+    return 'sejoijwioeruiio23483828238';
 }
 
 var closeConnection = function(){

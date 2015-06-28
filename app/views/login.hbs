@@ -5,6 +5,7 @@
     {{/if}}
     {{#if login}}
     <form method="post">
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
         <div class="form-group">
             <label for="exampleInputPassword1">Username</label>
             <input type="text" name="username" class="form-control" id="exampleInputPassword1" placeholder="Password">
