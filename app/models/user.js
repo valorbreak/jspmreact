@@ -12,7 +12,7 @@
  */
 
 var _ = require('lodash');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 var db;
 
@@ -33,8 +33,8 @@ function setDatabase(database, collection){
 User.schema = {
     '_id': null,    // Mongo Specific
     'name': {
-        firstName: '',
-        lastName: '',
+        'firstName': '',
+        'lastName': '',
         'middleInitial': ''
     },
     'username': null,
@@ -71,10 +71,26 @@ User.prototype.save = function(callback){
     });
 };
 
+/**
+ * setPassword
+ * @param password
+ */
 User.prototype.setPassword = function(password){
-    var salt = bcrypt.genSaltSync(14) + 'jspmreact';
+    var salt = bcrypt.genSaltSync(10) + 'jspmreact';
     this.data.password = bcrypt.hashSync(password, salt);
 };
+
+User.prototype.validatePassword = function(password){
+    //return true;
+    return bcrypt.compareSync(password,this.data.password);
+};
+
+/**
+ * sanitize
+ * Usage:
+ * @param data
+ * @returns {*}
+ */
 
 User.prototype.sanitize = function(data){
     data = data || {};
@@ -84,6 +100,13 @@ User.prototype.sanitize = function(data){
 User.prototype.remove = function(){
     db.remove({username: this.data.username});
 };
+
+/**
+ * findAll
+ * @param searchObject
+ * @param options: refer to mongodb
+ * @param callback
+ */
 
 User.findAll = function (searchObject,options,callback) {
     db.find(searchObject,options).toArray(function(err,res){
@@ -96,7 +119,7 @@ User.findAll = function (searchObject,options,callback) {
 };
 
 User.findByUsername = function (username,callback) {
-    db.find({username:username}).toArray(function(err,res){
+    db.findOne({username:username}, function(err,res){
         if(err){ console.error(' User Object: can\'t find username' )};
 
         if(callback){

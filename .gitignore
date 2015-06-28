@@ -11,4 +11,5 @@ src/app.min.js
 npm-debug.log
 .DS-STORE
 *.map
+*.bak
 janelia.js

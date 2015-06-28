@@ -7,56 +7,105 @@ var passport = require('passport');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    res.render('index', {title: 'Dropkick', baseUrl: '/r',body:'Next Generation CMS'});
+    res.render('cover', {title: 'Dropkick', baseUrl: '/r',body:'Next Generation CMS'});
 });
 
-
 /* GET home page. */
+router.get('/admin',requireLogin, function (req, res, next) {
+    var info = req.flash('info');
+    res.render('admin', {title: 'Admin Pages', baseUrl: '/r',body:'Next Generation CMS', info: info});
+});
+
+function requireLogin(req,res,next) {
+    if(req.session && req.session.user){
+        var username = req.session.user.username;
+        User.findByUsername(username, function(err,response){
+            if(err || !response){res.redirect('/login?destination=/admin'); return;}
+            next();
+        })
+    } else {
+        req.flash('info','Please login to view this section');
+        res.redirect('/login?destination=/admin');
+    }
+}
+
+
+/* Login Pages */
 router.route('/login')
     .get(function (req, res, next) {
-        res.render('login', {title: 'Login', baseUrl: '/r',body:'Login'});
+        var info = req.flash('info');
+        if(req.session && req.session.user){
+            var username = req.session.user.username;
+            User.findByUsername(username, function(err,response){
+                if(err || !response){
+                    //req.session.destroy();
+                    promptLogin();
+                } else{
+                    res.render('login', {title: 'Login', baseUrl: '/r',body:'Logout', login:false, info: info});
+                }
+            });
+        } else{
+            promptLogin();
+        }
+
+        function promptLogin() {
+            res.render('login', {title: 'Login', baseUrl: '/r',body:'Login', login:true, info: info});
+        }
+
     })
     .post(function (req, res, next) {
-        console.log(req.body,'nice');
-        console.log(req.cookies,'cookie');
-        var cookie = req.cookies.newcook;
+        var username = req.body.username;
 
-        if(cookie === undefined){
-            // no: set a new cookie
-            var randomNumber=Math.random().toString();
-            randomNumber=randomNumber.substring(2,randomNumber.length);
-            res.cookie('newcook',randomNumber, { maxAge: 900000, httpOnly: true });
-            console.log('cookie have created successfully');
-        } else{
-            console.log('cookie exist');
-        }
-        res.redirect('/?success=true');
+        var destination = req.params.destination;
+        User.findByUsername(username, function(err,result){
+            if(err){res.redirect('/login');}
 
-
+            if(result){
+                var user = new User(result);
+                if(user.validatePassword(req.body.password)){
+                    delete user.data.password;
+                    delete user.data._id;
+                    req.session.user = user.data;
+                    req.flash('info', 'Successful Login');
+                    res.redirect(destination || '/admin');
+                } else{
+                    req.flash('info', 'Username and password does not match');
+                    redirect();
+                }
+            } else{
+                req.flash('info', 'Username and password does not match');
+                redirect();
+            }
+            function redirect() {
+                if(destination){
+                    res.redirect('/login?destination='+destination);
+                } else{
+                    res.redirect('/login');
+                }
+            }
+        });
     });
 
 /* GET home page. */
 router.route('/logout')
     .get(function (req, res, next) {
-        if(req.cookies && req.cookies.newcook){
-            res.clearCookie('newcook');
-            res.render('index', {title: 'logout', baseUrl: '/r',body:'logout'});
-        } else{
-            res.render('login', {title: 'Login', baseUrl: '/r',body:'Login'});
+        if(req.session){
+            req.session.destroy();
         }
-        //res.render('login', {title: 'Login', baseUrl: '/r',body:'Login'});
+        res.render('index', {title: 'logout', baseUrl: '/r',body:'logout'});
     });
 
 /* GET home page. */
 router.route('/register')
     .get(function (req, res, next) {
-        res.render('register', {title: 'Login', baseUrl: '/r',body:'register'});
+        var alert = req.flash('alert');
+        res.render('register', {title: 'Login', baseUrl: '/r',body:'Welcome to drop',alert: alert});
     })
     .post(function (req, res, next) {
         if(req.body.username && req.body.email && req.body.password){
             var username = req.body.username;
             var password = req.body.password;
-            User.findByUsername(username,function(err,response){
+            User.findByUsername(username,function(err,user){
                 if(err){
                     res.render('register', {
                         baseUrl: '/r',
@@ -64,22 +113,19 @@ router.route('/register')
                     });
                     return;
                 }
-                if(response.length === 0){
-                    var user = new User(req.body);
-                    user.setPassword(req.body.password);
-                    user.save();
+                if(!user){
+                    var newUser = new User(req.body);
+                    newUser.setPassword(password);
+                    newUser.save();
                     res.redirect('/user/'+req.body.username);
                 } else{
-                    res.render('register', {
-                        baseUrl: '/r',
-                        alert: {class: 'alert-info', message: 'Username is already used'}
-                    });
+                    req.flash('alert','Username already exist');
+                    res.redirect('/register');
                 }
-
-
             });
         } else{
-            res.render('register', {title: 'Register', baseUrl: '/r', alert: 'invalid parameters'});
+            req.flash('alert','Invalid Parameters');
+            res.redirect('/register');
         }
     });
 

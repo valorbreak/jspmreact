@@ -75,6 +75,17 @@ describe('User Model - Using MONGODB', function(){
                         user.save();
                     });
                 }
+
+                //console.log(req.session,'session');
+                //if(req.session){
+                //    var randomNumber=Math.random().toString();
+                //    randomNumber=randomNumber.substring(2,randomNumber.length);
+                //    req.session.admin = randomNumber;
+                //    console.log('cookie have created successfully');
+                //} else{
+                //    console.log('cookie exist');
+                //}
+                //res.redirect('/?success=true');
             });
 
             // newfield must not exist in the database

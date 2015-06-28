@@ -5,13 +5,13 @@ var Promise = require('promise');
 var colors = require('colors');
 
 var mongodb;
-
+var currentUrl;
 var connect = function(dbUrl) {
 
-    var url = dbUrl || mongodbUrl;
+    currentUrl = dbUrl || mongodbUrl;
 
     return new Promise(function (resolve, reject) {
-        MongoClient.connect(url, function (err, db) {
+        MongoClient.connect(currentUrl, function (err, db) {
             if (err) { console.error(' Can\'t connect the database, Exiting'); throw err;}
             console.log(" mongoEasy: ".cyan + "Successfully Connected");
             mongodb = db;
@@ -20,11 +20,21 @@ var connect = function(dbUrl) {
     });
 };
 
+function getCurrentUrl() {
+    return currentUrl;
+}
+
+function getSessionSecret() {
+    return 'secret';
+}
+
 var closeConnection = function(){
     mongodb.close();
 };
 
 module.exports = {
+    getCurrentUrl: getCurrentUrl,
+    getSessionSecret: getSessionSecret,
     connect: connect,
     close: closeConnection
 };

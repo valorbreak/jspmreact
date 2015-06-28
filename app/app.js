@@ -10,21 +10,39 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var api = require('./routes/api');
 var test = require('./routes/test');
+var usersRoute = require('./routes/users');
 var env = require('../env.json');
 
+var app = express();
+
+
 // Database Setup
-var mongodb = require('./lib/mongoeasy');
-var mongo = mongodb.connect();
+var mongoEZ = require('./lib/mongoeasy');
+var mongo = mongoEZ.connect();
 var database;
 
 var User = require('./models/user');
 
+// Set Sessions and Flash Messages
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+var flash = require('connect-flash');
+
 mongo.then(function(db){
     database = db;
     User.setDatabase(db,'users');
+
 });
 
-var app = express();
+// Initialize App SESSION using mongodb
+app.use(session({
+    secret: mongoEZ.getSessionSecret(),
+    resave: true,
+    saveUninitialized: true,
+    store: new MongoStore({url: mongoEZ.getCurrentUrl()})
+}));
+
+app.use(flash());
 
 // set the db to be available on all Routes
 app.use(function(req,res,next){
@@ -45,6 +63,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/users', usersRoute);
 app.use('/api', api);
 app.use('/test', test);
 
