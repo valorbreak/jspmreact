@@ -41,7 +41,7 @@ app.use(session({
     saveUninitialized: false,
     store: new MongoStore({
         url: mongoEZ.getCurrentUrl(),
-        ttl: 7 * 24 * 60 * 60, // = 14 days. Default
+        ttl: 3 * 24 * 60 * 60, // = 14 days. Default
         autoRemove: 'native'
     })
 }));

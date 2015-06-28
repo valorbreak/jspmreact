@@ -55,7 +55,7 @@ router.route('/login')
         }
 
     })
-    .post(function (req, res, next) {
+    .post(csrfProtection,function (req, res, next) {
         var username = req.body.username;
 
         var destination = req.params.destination;
@@ -105,6 +105,7 @@ router.route('/register')
         res.render('register', {title: 'Login',body:'Welcome to dropkick',alert: alert});
     })
     .post(function (req, res, next) {
+        console.log(req,'rew');
         if(req.body.username && req.body.email && req.body.password){
             var username = req.body.username;
             var password = req.body.password;

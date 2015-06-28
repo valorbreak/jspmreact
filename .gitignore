@@ -12,4 +12,5 @@ npm-debug.log
 .DS-STORE
 *.map
 *.bak
+licenses.txt
 janelia.js
