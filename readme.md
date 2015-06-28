@@ -34,8 +34,8 @@
 # Todo:
 - Run install script to setup database configuration
 - Validate database schema
-- &#x2713; Login Authentication and Session Management
-- &#x2713; CSRF Protection
+- ✓ Login Authentication and Session Management
+- ✓ CSRF Protection
 
 # Sub-goals
 - Pricing Table
