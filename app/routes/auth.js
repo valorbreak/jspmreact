@@ -18,7 +18,7 @@ function requireLogin(req,res,next) {
         User.findByUsername(username, function(err,response){
             if(err || !response){res.redirect('/login?destination=/admin'); return;}
             next();
-        })
+        });
     } else {
         req.flash('info','Please login to view this section');
         res.redirect('/login?destination=/admin');
@@ -100,16 +100,16 @@ router.route('/logout')
 
 /* GET home page. */
 router.route('/register')
-    .get(function (req, res, next) {
+    .get(function (req, res) {
         var alert = req.flash('alert');
         res.render('register', {title: 'Login',body:'Welcome to dropkick',alert: alert});
     })
-    .post(function (req, res, next) {
-        console.log(req,'rew');
+    .post(function (req, res) {
         if(req.body.username && req.body.email && req.body.password){
             var username = req.body.username;
             var password = req.body.password;
             var email = req.body.email;
+
             User.findAll({$or: [{username:username},{email:email}]},{limit:1},function(err,results){
                 if(err){
                     retry('Username or Email already exist');

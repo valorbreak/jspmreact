@@ -49,6 +49,28 @@ User.schema = {
     'saved': false
 };
 
+/**
+ * Unique fields must be sanitized properly
+ * other fields can be sanitize during form submission
+ * @type {{username: Function, email: Function}}
+ */
+User.schemaSanitize = {
+    username: function(data){
+        var output = '';
+        if(typeof data === 'string') {
+            output = data.toLowerCase().trim();
+        }
+        return output;
+    },
+    email: function(data){
+        var output = '';
+        if(typeof data === 'string') {
+            output = data.toLowerCase().trim();
+        }
+        return output;
+    }
+};
+
 User.prototype.get = function (name) {
     return this.data[name];
 };
@@ -72,7 +94,7 @@ User.prototype.save = function(callback){
 };
 
 /**
- * setPassword
+ * setPassword:
  * @param password
  */
 User.prototype.setPassword = function(password){
@@ -81,7 +103,6 @@ User.prototype.setPassword = function(password){
 };
 
 User.prototype.validatePassword = function(password){
-    //return true;
     return bcrypt.compareSync(password,this.data.password);
 };
 
@@ -94,7 +115,17 @@ User.prototype.validatePassword = function(password){
 
 User.prototype.sanitize = function(data){
     data = data || {};
-    return _.pick(_.defaults(data, User.schema), _.keys(User.schema));
+
+    var cherryPicked = _.pick(_.defaults(data, User.schema), _.keys(User.schema));
+    var sanitizeFields = _.pick(cherryPicked, _.keys(User.schemaSanitize));
+
+    _.mapKeys(sanitizeFields,function(value,key){
+        if(User.schemaSanitize[key]){
+            cherryPicked[key] = User.schemaSanitize[key](value);
+        }
+    });
+
+    return cherryPicked;
 };
 
 User.prototype.remove = function(){
@@ -110,7 +141,7 @@ User.prototype.remove = function(){
 
 User.findAll = function (searchObject,options,callback) {
     db.find(searchObject,options).toArray(function(err,res){
-        if(err){ console.error(' User Object: can\'t find username' )};
+        if(err){ console.error(' User Object: can\'t find username' ); }
 
         if(callback){
             callback(err,res);
@@ -120,7 +151,7 @@ User.findAll = function (searchObject,options,callback) {
 
 User.findByUsername = function (username,callback) {
     db.findOne({username:username}, function(err,res){
-        if(err){ console.error(' User Object: can\'t find username' )};
+        if(err){ console.error(' User Object: can\'t find username' ); }
 
         if(callback){
             callback(err,res);

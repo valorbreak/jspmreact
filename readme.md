@@ -4,7 +4,7 @@
 - jspm - es6 module loading
 - babel - es6 transpiler
 - expressjs - http-server
-- fetch - a window.fetch Javascript polyfill
+- -fetch - a window.fetch Javascript polyfill-
 
 # Bundle (on /src)
 - `jspm bundle app/main main-bundle.js --inject` - Semi Bundle
@@ -36,6 +36,7 @@
 - Validate database schema
 - ✓ Login Authentication and Session Management
 - ✓ CSRF Protection
+- SMTP Integration
 
 # Sub-goals
 - Pricing Table
@@ -65,3 +66,8 @@ Make sure react-router is using the same react library.
 
 # Command Line
 - Commander and Promptly are two different libraries
+
+
+# Luxury Goals
+- Revisions
+-
