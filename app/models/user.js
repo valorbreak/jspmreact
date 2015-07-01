@@ -12,6 +12,7 @@
  */
 
 var _ = require('lodash');
+var Promise = require('promise');
 var bcrypt = require('bcryptjs');
 
 var db;
@@ -38,7 +39,7 @@ User.schema = {
         'middleInitial': ''
     },
     'username': null,
-    'password': null,
+    //'password': null, // Use setPassword to set this
     'email': 'null',
     'phoneNumber': null,
     'roles': [],
@@ -79,18 +80,18 @@ User.prototype.set = function (name, value) {
     this.data[name] = value;
 };
 
-User.prototype.save = function(callback){
-    this.data.changed = new Date();
-    this.data.saved = true;
+User.prototype.save = function(){
+    return new Promise(function(resolve,reject){
+        this.data.changed = new Date();
+        this.data.saved = true;
 
-    this.data = this.sanitize(this.data);
-    db.save(this.data,function(err,res){
-        if (err) {console.log(err);}
+        this.data = this.sanitize(this.data);
 
-        if(callback){
-            callback(err,res);
-        }
-    });
+        db.save(this.data,function(err,response){
+            if (err) {console.log(err,'err'); reject(err); }
+            resolve(response);
+        });
+    }.bind(this));
 };
 
 /**
@@ -133,30 +134,45 @@ User.prototype.remove = function(){
 };
 
 /**
- * findAll
+ * FindAll
  * @param searchObject
- * @param options: refer to mongodb
+ * @param options
  * @param callback
+ * @returns Promise
  */
 
 User.findAll = function (searchObject,options,callback) {
-    db.find(searchObject,options).toArray(function(err,res){
-        if(err){ console.error(' User Object: can\'t find username' ); }
-
-        if(callback){
-            callback(err,res);
-        }
+    return new Promise(function(resolve,reject) {
+        db.find(searchObject,options).toArray(function(err,res){
+            if(err){
+                console.error(' User Object: can\'t find username' );
+                reject(err);
+            }
+            if(res && res.password){
+                User.unsetPassword(res);
+            }
+            resolve(res);
+        });
     });
 };
 
-User.findByUsername = function (username,callback) {
-    db.findOne({username:username}, function(err,res){
-        if(err){ console.error(' User Object: can\'t find username' ); }
+User.findByUsername = function (username){
+    return new Promise(function(resolve,reject){
+        db.findOne({username:username}, function(err,res){
+            if(err){
+                console.error(' User Object: can\'t find username' );
+                resolve(err);
+            }
+            resolve(res);
 
-        if(callback){
-            callback(err,res);
-        }
+        });
     });
+};
+
+User.unsetPassword = function(res){
+    if(res && res.password){
+        delete res.password;
+    }
 };
 
 module.exports = User;

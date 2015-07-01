@@ -6,25 +6,17 @@ var router = express.Router();
 var csrf = require('csurf');
 var csrfProtection = csrf();
 
+var requireLogin = require('./authrules').requireLogin;
+
 /* GET home page. */
 router.get('/admin',requireLogin, function (req, res, next) {
     var info = req.flash('info');
+    res.locals.sessid = req.cookies.sessid;
+    if(req.session && req.session.user){
+        res.locals.session = req.session;
+    }
     res.render('admin', {title: 'Admin Pages', baseUrl: '/r',body:'Next Generation CMS', info: info});
 });
-
-function requireLogin(req,res,next) {
-    if(req.session && req.session.user){
-        var username = req.session.user.username;
-        User.findByUsername(username, function(err,response){
-            if(err || !response){res.redirect('/login?destination=/admin'); return;}
-            next();
-        });
-    } else {
-        req.flash('info','Please login to view this section');
-        res.redirect('/login?destination=/admin');
-    }
-}
-
 
 /* Login Pages */
 router.route('/login')
@@ -57,7 +49,6 @@ router.route('/login')
     })
     .post(csrfProtection,function (req, res, next) {
         var username = req.body.username;
-
         var destination = req.params.destination;
         User.findByUsername(username, function(err,result){
             if(err){res.redirect('/login');}
@@ -67,6 +58,7 @@ router.route('/login')
                 if(user.validatePassword(req.body.password)){
                     delete user.data.password;
                     delete user.data._id;
+                    req.session['user-agent'] = req.headers['user-agent'];
                     req.session.user = user.data;
                     req.flash('info', 'Successful Login');
                     res.redirect(destination || '/admin');

@@ -71,3 +71,6 @@ Make sure react-router is using the same react library.
 # Luxury Goals
 - Revisions
 -
+
+# DEV NOTES
+- Objects: check if the objects exist first before using properties

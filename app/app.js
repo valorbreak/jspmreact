@@ -13,7 +13,6 @@ var test = require('./routes/test');
 var authRoutes = require('./routes/auth');
 var usersRoute = require('./routes/users');
 var env = require('../env.json');
-
 var app = express();
 
 // Database Setup
@@ -38,6 +37,9 @@ app.use(session({
     secret: mongoEZ.getSessionSecret(),
     name: 'sessid',
     resave: false,
+    cookie: {
+        httpOnly:true
+    },
     saveUninitialized: false,
     store: new MongoStore({
         url: mongoEZ.getCurrentUrl(),

@@ -5,3 +5,26 @@
         <div class="alert alert-info">{{info}}</div>
     {{/if}}
 </div>
+
+<script type="application/javascript" src="/javascripts/fetch.js"></script>
+<script>
+    var data = "{{session}}";
+    var sessid = "{{sessid}}";
+    console.log(document.cookie,'cookie');
+    function reqListener () {
+        console.log(this.responseText);
+    }
+    var oReq = new XMLHttpRequest();
+    oReq.onload = reqListener;
+    oReq.open("get", "/api/users", true);
+    oReq.send();
+//
+//    fetch('/users',{method:'get', credentials: 'same-origin'})
+//            .then(function(response) {
+//                return response.text()
+//            }).then(function(body) {
+//                console.log(body,'body');
+//                console.log(sessid,'sessid');
+//            });
+</script>
+

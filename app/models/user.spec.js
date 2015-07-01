@@ -19,70 +19,78 @@ describe('User Model - Using MONGODB', function(){
         User.setDB(db,testCollection);
     });
 
+    function findUsername(){
+        return User.findByUsername(usernameLower);
+    }
+
+    function findChangedUsername(){
+        return User.findByUsername(changedUsernameLower);
+    }
+
     it('User can be created to the database', function(done){
         this.timeout(10000);
-        newDB.then(function(db){
+
+        newDB.then(function(){
             var user = new User({});
             user.set('username',username);
             user.set('email',email);
-            user.set('phoneNumber',email);
+            user.set('phoneNumber','12345');
             user.setPassword('test123');
-            user.save(function(err,res){
-                if(err){throw err;}
-                assert.equal(res.ops[0].username,usernameLower,'Created user must equal test username');
-                done();
-            });
+            return user.save();
+        }).then(function(response){
+            // ops only exist when a new item is created
+            assert.equal(response.ops[0].username,usernameLower,'Created user must equal test username');
+            done();
         });
     });
 
     it('User can be fetched from the database', function(done){
-        newDB.then(function(db){
-            User.findByUsername(usernameLower,function(err,item){
-                assert.equal(item.username,usernameLower,'Retrieved User must equal test username and lowercased');
-                assert.equal(item.email,email.toLowerCase(),'Retrieved Email must equal test username and lowercased');
-                done();
-            });
+        newDB.then(findUsername).then(function(item){
+            assert.equal(item.username,usernameLower,'Retrieved User must equal test username and lowercased');
+            assert.equal(item.email,email.toLowerCase(),'Retrieved Email must equal test username and lowercased');
+            done();
         });
     });
 
-
     it('User can be updated', function(done) {
-        newDB.then(function(db){
-            User.findByUsername(usernameLower,function(err,item){
-                var user = new User(item);
-                user.set('username',changedUsername);
-                user.save();
-                done();
-            });
+        newDB.then(findUsername).then(function(item){
+            console.log(item._id,'id-1');
+            console.log(item.email,'item-2 email');
+            var user = new User(item);
+            user.set('username',changedUsername);
+            user.set('email',email+'newemail');
+            return user.save();
+        }).then(function(response){
+            assert.equal(response.result.ok,1,'Must be ok');
+            done();
         });
+
     });
 
     it('User should only have fields in the schema', function(done){
-        newDB.then(function(db){
-
-            // Update the User Object with a new field and save
-            User.findByUsername(changedUsernameLower,function(err,item){
+        newDB.then(findChangedUsername)
+            .then(function(item){
+                console.log(item._id,'item-2');
+                console.log(item.email,'item-2 email');
                 var user = new User(item);
-                user.set('newfield','error');
-                user.save();
-            });
+                user.set('newfield','this should not be set');
+                return user.save();
+            })
+            .then(findChangedUsername)
+            .then(done());
 
-            // newfield must not exist in the database
-            User.findByUsername(changedUsernameLower,function(err,item){
-                assert.equal(item.newfield,undefined,'Newfield must not exist in the database');
-                done();
-            });
-        });
+
     });
 
+
     it('User can be deleted from the database', function(done){
-        newDB.then(function(db){
-            User.findByUsername(changedUsernameLower,function(err,item){
+        newDB.then(findChangedUsername)
+            .then(function(item){
                 var user = new User(item);
                 user.remove();
                 done();
             });
-        });
     });
+
 
 });
