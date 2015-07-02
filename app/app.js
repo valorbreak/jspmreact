@@ -9,9 +9,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var api = require('./routes/api');
-var test = require('./routes/test');
 var authRoutes = require('./routes/auth');
-var usersRoute = require('./routes/users');
 var env = require('../env.json');
 var app = express();
 
@@ -77,9 +75,7 @@ function templateLocals(req,res,next){
 
 app.use(authRoutes);
 app.use('/', routes);
-app.use('/users', usersRoute);
 app.use('/api', api);
-app.use('/test', test);
 
 
 function baseUrl(req,res,next) {

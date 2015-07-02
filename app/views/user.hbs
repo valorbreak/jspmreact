@@ -1,0 +1,21 @@
+<div class="container">
+    <h2>Users</h2>
+    <a href="/logout" class="btn btn-danger pull-right">Logout</a>
+    <table class="table table-responsive table-striped">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Date Created</th>
+            </tr>
+        </thead>
+        {{#users}}
+            <tr>
+                <td>{{username}}</td>
+                <td>{{email}}</td>
+                <td>{{created}}</td>
+            </tr>
+        {{/users}}
+    </table>
+
+</div>

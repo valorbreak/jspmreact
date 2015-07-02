@@ -39,7 +39,7 @@ User.schema = {
         'middleInitial': ''
     },
     'username': null,
-    //'password': null, // Use setPassword to set this
+    'password': null, // Use setPassword to set this
     'email': 'null',
     'phoneNumber': null,
     'roles': [],
@@ -141,15 +141,12 @@ User.prototype.remove = function(){
  * @returns Promise
  */
 
-User.findAll = function (searchObject,options,callback) {
+User.findAll = function (searchObject,options) {
     return new Promise(function(resolve,reject) {
         db.find(searchObject,options).toArray(function(err,res){
             if(err){
                 console.error(' User Object: can\'t find username' );
                 reject(err);
-            }
-            if(res && res.password){
-                User.unsetPassword(res);
             }
             resolve(res);
         });

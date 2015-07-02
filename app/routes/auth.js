@@ -23,21 +23,27 @@ router.route('/login')
     .get(csrfProtection,function (req, res, next) {
         var info = req.flash('info');
         res.locals.csrfToken = req.csrfToken();
+
         if(req.session && req.session.user){
             var username = req.session.user.username;
-            User.findByUsername(username, function(err,response){
-                if(err || !response){
-                    req.session.destroy();
-                    promptLogin();
-                } else{
+            User.findByUsername(username)
+                .then(function(response){
+                    if(response.length > 0){
+                        req.session.destroy();
+                        promptLogin();
+                    } else{
+                        res.render('login', {title: 'Login',body:'Logout', login:false, info: info});
+                    }
+                })
+                .catch(function(err){
                     res.render('login', {title: 'Login',body:'Logout', login:false, info: info});
-                }
-            });
+                });
         } else{
             promptLogin();
         }
 
         function promptLogin() {
+
             res.render('login', {
                 title: 'Login',
                 body:'Login',
@@ -50,27 +56,32 @@ router.route('/login')
     .post(csrfProtection,function (req, res, next) {
         var username = req.body.username;
         var destination = req.params.destination;
-        User.findByUsername(username, function(err,result){
-            if(err){res.redirect('/login');}
+        var password = req.body.password;
 
-            if(result){
-                var user = new User(result);
-                if(user.validatePassword(req.body.password)){
-                    delete user.data.password;
-                    delete user.data._id;
-                    req.session['user-agent'] = req.headers['user-agent'];
-                    req.session.user = user.data;
-                    req.flash('info', 'Successful Login');
-                    res.redirect(destination || '/admin');
+        User.findByUsername(username)
+            .then(function(result){
+                if(result){
+                    var user = new User(result);
+                    if(user.validatePassword(password)){
+                        delete user.data.password;
+                        delete user.data._id;
+                        req.session['user-agent'] = req.headers['user-agent'];
+                        req.session.user = user.data;
+                        req.flash('info', 'Successful Login');
+                        res.redirect('/admin');
+                    } else{
+                        req.flash('info', 'Username and password does not match');
+                        redirect();
+                    }
                 } else{
                     req.flash('info', 'Username and password does not match');
                     redirect();
                 }
-            } else{
+            })
+            .catch(function(){
                 req.flash('info', 'Username and password does not match');
                 redirect();
-            }
-        });
+            });
 
         function redirect() {
             if(destination){
@@ -102,30 +113,24 @@ router.route('/register')
             var password = req.body.password;
             var email = req.body.email;
 
-            User.findAll({$or: [{username:username},{email:email}]},{limit:1},function(err,results){
-                if(err){
-                    retry('Username or Email already exist');
-                }
-                if(results.length === 0){
+            User.findAll({$or: [{username:username},{email:email}]},{limit:1})
+                .then(function(results){
                     var newUser = new User(req.body);
                     newUser.setPassword(password);
-                    newUser.save(function(err,item){
-                        if(err){
-                            // Secondary Check when the username is indexed as unique
-                            retry('Username or Email already exist');
-                        } else{
-                            if(item.ops[0].username){
-                                var newUsername = item.ops[0].username;
-                                res.redirect('/user/'+newUsername);
-                            } else {
-                                retry('Error Occured');
-                            }
-                        }
-                    });
-                } else{
-                    retry('Username or Email already exist');
-                }
-            });
+                    return newUser.save();
+                })
+                .then(function(item){
+                    if(item.ops[0].username){
+                        var newUsername = item.ops[0].username;
+                        res.redirect('/user/'+newUsername);
+                    } else {
+                        retry('Error Occured');
+                    }
+                })
+                .catch(function(err){
+                    retry('Invalid Parameters');
+                });
+
         } else{
             retry('Invalid Parameters');
         }
