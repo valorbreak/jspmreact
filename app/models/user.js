@@ -11,11 +11,11 @@
  *
  */
 
-import _ from 'lodash';
-import Promise from 'promise';
-import bcrypt from 'bcryptjs';
+var _ = require('lodash');
+var PromiseJS = require('promise');
+var bcrypt = require('bcryptjs');
 
-let db;
+var db;
 
 // Constructor
 var User = function(data) {
@@ -81,7 +81,7 @@ User.prototype.set = function (name, value) {
 };
 
 User.prototype.save = function(){
-    return new Promise(function(resolve,reject){
+    return new PromiseJS(function(resolve,reject){
         this.data.changed = new Date();
         this.data.saved = true;
 
@@ -142,7 +142,7 @@ User.prototype.remove = function(){
  */
 
 User.findAll = function (searchObject,options) {
-    return new Promise(function(resolve,reject) {
+    return new PromiseJS(function(resolve,reject) {
         db.find(searchObject,options).toArray(function(err,res){
             if(err){
                 console.error(' User Object: can\'t find username' );
@@ -154,7 +154,7 @@ User.findAll = function (searchObject,options) {
 };
 
 User.findByUsername = function (username){
-    return new Promise(function(resolve,reject){
+    return new PromiseJS(function(resolve,reject){
         db.findOne({username:username}, function(err,res){
             if(err){
                 console.error(' User Object: can\'t find username' );
@@ -172,4 +172,5 @@ User.unsetPassword = function(res){
     }
 };
 
-export default User;
+module.exports = User;
+//export default User;

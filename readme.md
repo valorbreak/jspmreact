@@ -75,3 +75,7 @@ Make sure react-router is using the same react library.
 
 # DEV NOTES
 - Objects: check if the objects exist first before using properties
+
+# ES6 Setup
+- npm run babelstart
+- or using require('babel/register');

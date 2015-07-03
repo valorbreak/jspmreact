@@ -23,7 +23,7 @@ indent_size = 4
 indent_style = tab
 
 # Indentation override for all JS under app directory
-[app/**.js]
+[app/**.{js,jsx}]
 indent_style = space
 indent_size = 4
 

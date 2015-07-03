@@ -18,7 +18,7 @@
 import React from 'react';
 
 let Index = React.createClass({
-    onButtonClick: function() {
+    onButtonClick: function () {
         alert('I was rendered on server side but I am clickable because of client mounting!');
     },
     render: function render() {

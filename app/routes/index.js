@@ -2,7 +2,7 @@
 
 import express from "express";
 import usersRoute from "./user";
-import usersRoute from "./test";
+import testRoute from "./test";
 
 let router = express.Router();
 /* GET home page. */
@@ -13,6 +13,4 @@ router.get('/', function (req, res, next) {
 router.use('/user',usersRoute);
 router.use('/test',testRoute);
 
-//module.exports = router;
-
-export default router;
+module.exports = router;
