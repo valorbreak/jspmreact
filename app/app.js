@@ -54,9 +54,19 @@ app.use(function(req,res,next){
     next();
 });
 
-// view engine setup
+require('node-jsx').install();
+var renderer = require('react-engine');
+var engine = renderer.server.create();
+
+// set `react-engine` as the view engine
+app.engine('.jsx', engine);
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
+app.set('view engine', 'jsx');
+app.set('view', renderer.expressView);
+
+// view engine setup
+//app.set('views', path.join(__dirname, 'views'));
+//app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -81,7 +91,6 @@ app.use('/api', api);
 function baseUrl(req,res,next) {
     res.locals.baseUrl = '/r';
 }
-
 
 // Static Files
 //__dirname = current directory where this file is located
