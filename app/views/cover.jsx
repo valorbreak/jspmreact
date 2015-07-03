@@ -1,14 +1,12 @@
 'use strict';
 
 var React = require('react');
-var Layout = require('./layout.jsx');
+var Layout = require('./layout');
 
 module.exports = React.createClass({
-
     onButtonClick: function() {
         alert('I was rendered on server side but I am clickable because of client mounting!');
     },
-
     render: function render() {
         return (
             <Layout {...this.props}>

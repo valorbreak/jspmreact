@@ -105,8 +105,8 @@ router.route('/logout')
 /* GET home page. */
 router.route('/register')
     .get((req, res) => {
-        let alert = req.flash('alert');
-        res.render('register', {title: 'Login',body:'Welcome to dropkick',alert: alert});
+        let info = req.flash('info');
+        res.render('register', {title: 'Login',body:'Welcome to dropkick',info: info});
     })
     .post((req, res) => {
         if(req.body.username && req.body.email && req.body.password){
@@ -137,7 +137,7 @@ router.route('/register')
         }
 
         function retry(message){
-            req.flash('alert',message);
+            req.flash('info',message);
             res.redirect('/register');
         }
     });

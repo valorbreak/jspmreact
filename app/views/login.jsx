@@ -1,7 +1,8 @@
 'use strict';
 
 import React from 'react';
-import Layout from './layout.jsx';
+import Layout from './layout';
+import Alert from './components/alert';
 
 let LoginForm = React.createClass({
     render: function () {
@@ -27,16 +28,12 @@ let LoginForm = React.createClass({
 });
 
 let LoginPartial = React.createClass({
-
     render: function render() {
         return (
             <Layout {...this.props}>
                 <div className="container">
                     <h2>{this.props.title}</h2>
-                    { this.props.info.map(function (item) {
-                        return <div className="alert alert-warning">{item}</div>
-                    })
-                    }
+                    <Alert info={this.props.info}></Alert>
                     <LoginForm {...this.props} ></LoginForm>
                 </div>
             </Layout>
