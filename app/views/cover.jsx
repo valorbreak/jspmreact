@@ -11,7 +11,7 @@ module.exports = React.createClass({
 
     render: function render() {
         return (
-            <Layout title={this.props.title}>
+            <Layout {...this.props}>
                 <div className="site-wrapper">
                     <div className="site-wrapper-inner">
                         <div className="cover-container">

@@ -1,16 +1,17 @@
 "use strict";
 
-var express = require('express');
-var User = require('../models/user');
-var router = express.Router();
-var csrf = require('csurf');
-var csrfProtection = csrf();
+import express from 'express';
+import User from '../models/user';
+import csrf from 'csurf';
 
-var requireLogin = require('./authrules').requireLogin;
+let router = express.Router();
+let csrfProtection = csrf();
+
+let requireLogin = require('./authrules').requireLogin;
 
 /* GET home page. */
-router.get('/admin',requireLogin, function (req, res, next) {
-    var info = req.flash('info');
+router.get('/admin',requireLogin, (req, res) => {
+    let info = req.flash('info');
     res.locals.sessid = req.cookies.sessid;
     if(req.session && req.session.user){
         res.locals.session = req.session;
@@ -20,12 +21,12 @@ router.get('/admin',requireLogin, function (req, res, next) {
 
 /* Login Pages */
 router.route('/login')
-    .get(csrfProtection,function (req, res, next) {
-        var info = req.flash('info');
+    .get(csrfProtection, (req, res) => {
+        let info = req.flash('info');
         res.locals.csrfToken = req.csrfToken();
 
         if(req.session && req.session.user){
-            var username = req.session.user.username;
+            let username = req.session.user.username;
             User.findByUsername(username)
                 .then(function(response){
                     if(response.length > 0){
@@ -53,15 +54,15 @@ router.route('/login')
         }
 
     })
-    .post(csrfProtection,function (req, res, next) {
-        var username = req.body.username;
-        var destination = req.params.destination;
-        var password = req.body.password;
+    .post(csrfProtection, (req, res) => {
+        let username = req.body.username;
+        let destination = req.params.destination;
+        let password = req.body.password;
 
         User.findByUsername(username)
             .then(function(result){
                 if(result){
-                    var user = new User(result);
+                    let user = new User(result);
                     if(user.validatePassword(password)){
                         delete user.data.password;
                         delete user.data._id;
@@ -94,7 +95,7 @@ router.route('/login')
 
 /* GET home page. */
 router.route('/logout')
-    .get(function (req, res, next) {
+    .get((req, res) => {
         if(req.session){
             req.session.destroy();
         }
@@ -103,25 +104,25 @@ router.route('/logout')
 
 /* GET home page. */
 router.route('/register')
-    .get(function (req, res) {
-        var alert = req.flash('alert');
+    .get((req, res) => {
+        let alert = req.flash('alert');
         res.render('register', {title: 'Login',body:'Welcome to dropkick',alert: alert});
     })
-    .post(function (req, res) {
+    .post((req, res) => {
         if(req.body.username && req.body.email && req.body.password){
-            var username = req.body.username;
-            var password = req.body.password;
-            var email = req.body.email;
+            let username = req.body.username;
+            let password = req.body.password;
+            let email = req.body.email;
 
             User.findAll({$or: [{username:username},{email:email}]},{limit:1})
                 .then(function(results){
-                    var newUser = new User(req.body);
+                    let newUser = new User(req.body);
                     newUser.setPassword(password);
                     return newUser.save();
                 })
                 .then(function(item){
                     if(item.ops[0].username){
-                        var newUsername = item.ops[0].username;
+                        let newUsername = item.ops[0].username;
                         res.redirect('/user/'+newUsername);
                     } else {
                         retry('Error Occured');
@@ -141,4 +142,4 @@ router.route('/register')
         }
     });
 
-module.exports = router;
+export default router;

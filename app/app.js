@@ -1,5 +1,8 @@
 "use strict";
 
+// ES6 Capable
+require("babel/register");
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -41,7 +44,7 @@ app.use(session({
     saveUninitialized: false,
     store: new MongoStore({
         url: mongoEZ.getCurrentUrl(),
-        ttl: 3 * 24 * 60 * 60, // = 14 days. Default
+        ttl: 3 * 24 * 60 * 60, // = 3 days. Default
         autoRemove: 'native'
     })
 }));
@@ -54,7 +57,6 @@ app.use(function(req,res,next){
     next();
 });
 
-require('node-jsx').install();
 var renderer = require('react-engine');
 var engine = renderer.server.create();
 

@@ -11,11 +11,11 @@
  *
  */
 
-var _ = require('lodash');
-var Promise = require('promise');
-var bcrypt = require('bcryptjs');
+import _ from 'lodash';
+import Promise from 'promise';
+import bcrypt from 'bcryptjs';
 
-var db;
+let db;
 
 // Constructor
 var User = function(data) {
@@ -172,4 +172,4 @@ User.unsetPassword = function(res){
     }
 };
 
-module.exports = User;
+export default User;

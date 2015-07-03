@@ -15,9 +15,9 @@
 
 'use strict';
 
-var React = require('react');
+import React from 'react';
 
-module.exports = React.createClass({
+let Index = React.createClass({
     onButtonClick: function() {
         alert('I was rendered on server side but I am clickable because of client mounting!');
     },
@@ -30,3 +30,5 @@ module.exports = React.createClass({
         );
     }
 });
+
+export default Index;

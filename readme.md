@@ -26,6 +26,7 @@
 - Product Catalog
 - Paypal Integration
 - Admin Pages
+- ES6 Ready
 
 # Technical Goals
 - Reduce Circular Dependencies

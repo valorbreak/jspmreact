@@ -84,3 +84,5 @@ router.route('/users')
 router.use('/entity', entityRoute);
 
 module.exports = router;
+
+export default router;
