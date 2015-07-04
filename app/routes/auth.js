@@ -29,22 +29,17 @@ router.route('/login')
             let username = req.session.user.username;
             User.findByUsername(username)
                 .then(function(response){
-                    if(response.length > 0){
-                        req.session.destroy();
-                        promptLogin();
-                    } else{
-                        res.render('login', {title: 'Login',body:'Logout', login:false, info: info});
-                    }
+                    //res.redirect('/admin');
+                    res.render('login', {title: 'Login',body:'Logout', login:false, info: info});
                 })
                 .catch(function(err){
-                    res.render('login', {title: 'Login',body:'Logout', login:false, info: info});
+                    promptLogin();
                 });
         } else{
             promptLogin();
         }
 
         function promptLogin() {
-
             res.render('login', {
                 title: 'Login',
                 body:'Login',

@@ -89,11 +89,6 @@ app.use(authRoutes);
 app.use('/', routes);
 app.use('/api', api);
 
-
-function baseUrl(req,res,next) {
-    res.locals.baseUrl = '/r';
-}
-
 // Static Files
 //__dirname = current directory where this file is located
 // .

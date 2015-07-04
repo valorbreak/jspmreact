@@ -12,12 +12,12 @@ let LoginForm = React.createClass({
 
                 <div className="form-group">
                     <label for="exampleInputPassword1">Username</label>
-                    <input type="text" name="username" className="form-control" id="exampleInputPassword1"
+                    <input type="text" name="username" className="form-control" id="username"
                            placeholder="Password"/>
                 </div>
                 <div className="form-group">
                     <label for="exampleInputPassword1">Password</label>
-                    <input type="password" name="password" className="form-control" id="exampleInputPassword1"
+                    <input type="password" name="password" className="form-control" id="password"
                            placeholder="Password"/>
                 </div>
                 <button type="submit" className="btn btn-default">Submit</button>
@@ -30,11 +30,16 @@ let LoginForm = React.createClass({
 let LoginPartial = React.createClass({
     render: function render() {
         return (
-            <Layout {...this.props}>
+            <Layout>
                 <div className="container">
                     <h2>{this.props.title}</h2>
+                    <p>{this.props.body}</p>
                     <Alert info={this.props.info}></Alert>
-                    <LoginForm {...this.props} ></LoginForm>
+                    {
+                        (this.props.login) ?
+                        (<LoginForm {...this.props} ></LoginForm>) :
+                        (<a href='/logout' className='btn btn-danger'>Logout</a>)
+                    }
                 </div>
             </Layout>
         );

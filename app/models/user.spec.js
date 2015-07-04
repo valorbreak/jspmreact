@@ -21,7 +21,7 @@ describe('User Model - Using MONGODB', function(){
     });
 
     function findUsername(){
-        return User.findByUsername(usernameLower);
+        return User.findById(usernameLower);
     }
 
     function findChangedUsername(){

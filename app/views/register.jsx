@@ -6,7 +6,6 @@ import Alert from './components/alert';
 
 let Index = React.createClass({
     render: function render() {
-        console.log(this.props,'props');
         return (
             <Layout {...this.props}>
                 <div className="container">
