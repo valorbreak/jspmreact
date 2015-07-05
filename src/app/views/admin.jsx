@@ -12,6 +12,7 @@ let Index = React.createClass({
         return (
             <Layout>
                 <div className="container">
+                    <a href="/react">react link</a>
                     <h1 style={{fontWeight:'200'}}>{this.props.title}</h1>
                     <p>{this.props.body}</p>
                     <Alert info={this.props.info}></Alert>

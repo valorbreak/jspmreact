@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+
 //import Component from './views/react.jsx';
 
 // finally, boot whenever you are ready
@@ -16,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
         });
     }
 });
+
 
 (function() {
 var DOMloaded_event = new Event('DOMContentLoaded');

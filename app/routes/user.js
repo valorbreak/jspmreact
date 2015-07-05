@@ -13,7 +13,7 @@ router.get('/', requireLogin, function (req, res) {
 
     User.findAll({},{limit:10,sort:'username', fields: {_id:0,password:0}})
         .then(function(results){
-            res.render('user', {users:results});
+            res.render('user', {title:'Users', users:results});
         })
         .catch(function(err){
             res.render('user', err);

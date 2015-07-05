@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Layout from './layout.jsx';
+import Layout from './layout2.jsx';
 
 var api;
 var _;
@@ -18,27 +18,20 @@ if(typeof window !== 'undefined' && window.document){
 }
 
 var states = {
-    value: '',
-    clicked: false,
-    color: '#000'
+    'clicked': {
+        wut : "#902"
+    },
+    'unclicked': {
+        wut : "#000"
+    }
 };
 
 let Index = React.createClass({
     handleClick: function(event) {
-        this.state.clicked = !this.state.clicked;
-        if(this.state.clicked){
-            this.state.color = '#902';
-        } else {
-            this.state.color = '#000';
-        }
-        this.setState(this.state);
-    },
-    handleChange: function(event){
-        this.state.value =  event.target.value;
-        this.setState(this.state);
+        this.setState(states.clicked);
     },
     getInitialState : function() {
-        return states;
+        return states.unclicked;
     },
     componentDidMount: function(){
         api.then(function(api){
@@ -49,16 +42,12 @@ let Index = React.createClass({
         console.log(this.state,'state');
     },
     render: function () {
-        var value = this.state.value;
         return (
             <Layout>
                 <div className="container">
-                    <a href="/admin">admin link</a>
-                    <p>Value: {value}</p>
-                    <input type="text" value={value} onChange={this.handleChange} />
-                    <h1 style={{color:this.state.color}}> Title: {this.state.color} {this.props.title}</h1>
+                    <h1 style={{color:this.state.wut}}> Title: {this.state.wut} {this.props.title}</h1>
                     <p>Body {this.props.body}</p>
-                    <button className="btn btn-default" onClick={this.handleClick}>this is clickable</button>
+                    <button onClick={this.handleClick}>this is clickable</button>
                 </div>
             </Layout>
         );

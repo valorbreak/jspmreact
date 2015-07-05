@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Layout from './layout.jsx';
+import Layout from './cover.layout.jsx';
 
 let Cover = React.createClass({
     onButtonClick: function() {

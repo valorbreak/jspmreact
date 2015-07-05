@@ -17,7 +17,6 @@ router.get('/', function (req, res) {
 });
 
 router.use('/react',function(req,res){
-    //res.render('react', {title:'testexample'});
     res.render('react', {title:'testexample'});
 });
 
