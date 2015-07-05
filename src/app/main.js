@@ -1,24 +1,24 @@
-import React from 'react';
-import client from 'react-engine/lib/client';
-import ReactRoute from './views/react.jsx';
+'use strict';
 
-// boot options
-var options = {};
+import React from 'react';
+//import Component from './views/react.jsx';
 
 // finally, boot whenever you are ready
 // example:
-document.addEventListener('DOMContentLoaded', function onLoad() {
-    // `onBoot` - Function (optional)
-    // returns data that was used
-    // during rendering as the first argument
-    client.boot(options, function onBoot(data) {
-        console.log(data,'dataclient');
-    });
+document.addEventListener('DOMContentLoaded', function (event) {
+    var data = window['__REACT_ENGINE__'];
+    //var data = Client.data();
+    if(data){
+        var Component = System.import('./app/views/'+ data.__meta.view);
+        Component.then(function(comp){
+            var NewComp = comp.default;
+            React.render(<NewComp {...data} />, document);
+        });
+    }
 });
 
-// if the data is needed before booting on
-// client, call `data` function anytime to get it.
-// example:
-var data = client.data();
-
-React.render(<ReactRoute {...data} />, document);
+(function() {
+var DOMloaded_event = new Event('DOMContentLoaded');
+document.addEventListener('DOMloaded_event', function(e){ console.log(e); });
+document.dispatchEvent(DOMloaded_event);
+})();

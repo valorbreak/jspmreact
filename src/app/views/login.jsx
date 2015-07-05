@@ -1,8 +1,8 @@
 'use strict';
 
 import React from 'react';
-import Layout from './layout';
-import Alert from './components/alert';
+import Layout from './layout.jsx';
+import Alert from './components/alert.jsx';
 
 let LoginForm = React.createClass({
     render: function () {

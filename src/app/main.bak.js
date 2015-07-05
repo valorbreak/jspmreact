@@ -29,7 +29,6 @@ class Homepage extends React.Component {
             }.bind(this));
     }
     render() {
-        console.log(this.props,'client side');
         let baseUrl = this.props.route.path;
         let content = this.state ? this.state.data[0] : 'Loading';
         return (
@@ -137,8 +136,8 @@ var HelloMessage = React.createClass({displayName: "HelloMessage",
     }
 });
 
-React.render(React.createElement(HelloMessage, {name: "John"}), document.body);
-//React.render(rootRouter,document.body);
+//React.render(React.createElement(HelloMessage, {name: "John"}), document.body);
+React.render(rootRouter,document.body);
 
 function reqListener () {
     console.log(this.responseText);

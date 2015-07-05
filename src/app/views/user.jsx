@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Layout from './layout';
+import Layout from './layout.jsx';
 
 //var TableRow = React.createClass({
 //    render: function render() {
