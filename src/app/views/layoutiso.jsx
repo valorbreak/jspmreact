@@ -14,9 +14,9 @@ var Layout = React.createClass({
             </head>
             <body>
                 {this.props.children}
-            <script src="/r/jspm_packages/system.js"></script>
-            <script src="/r/config.js"></script>
-            <script src="/r/index.js"></script>
+                <script src="/r/jspm_packages/system.js"></script>
+                <script src="/r/config.js"></script>
+                <script src="/r/index.js"></script>
             </body>
             </html>
         );
@@ -24,5 +24,8 @@ var Layout = React.createClass({
 });
 
 module.exports = Layout;
+
+
+
 
 

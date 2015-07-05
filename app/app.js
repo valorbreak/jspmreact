@@ -14,26 +14,35 @@ var routes = require('./routes/index');
 var api = require('./routes/api');
 var authRoutes = require('./routes/auth');
 var env = require('../env.json');
+
+// Single Page Application Path
+// React Components are shared between the server and the client
+var spaPath = path.resolve(".") + env.spaDir;
+
+
 var app = express();
 
-// Database Setup
+/**
+ * Database, Model Setup
+ */
 var mongoEZ = require('./lib/mongoeasy');
 var mongo = mongoEZ.connect();
 var database;
 
 var User = require('./models/user');
-
-// Set Sessions and Flash Messages
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
-var flash = require('connect-flash');
+var Articles = require('./models/article');
 
 mongo.then(function(db){
     database = db;
     User.setDatabase(db,'users');
+    Articles.setDatabase(db,'articles');
 });
 
-// Initialize App SESSION using mongodb
+/**
+ * Initialize App SESSION using mongodb
+ */
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 app.use(session({
     secret: mongoEZ.getSessionSecret(),
     name: 'sessid',
@@ -49,6 +58,10 @@ app.use(session({
     })
 }));
 
+/**
+ * Middleware for flash messages
+ */
+var flash = require('connect-flash');
 app.use(flash());
 
 // set the db to be available on all Routes
@@ -57,17 +70,21 @@ app.use(function(req,res,next){
     next();
 });
 
+/**
+ * Set View Engine + template setup
+ */
 var renderer = require('react-engine');
 var engine = renderer.server.create();
 
 // set `react-engine` as the view engine
 app.engine('.jsx', engine);
-app.set('views', path.join(__dirname, 'views'));
+//app.set('views', path.join(__dirname, 'views'));
+app.set('views', spaPath+ "/app/views");
 app.set('view engine', 'jsx');
 app.set('view', renderer.expressView);
 
 // view engine setup
-//app.set('views', path.join(__dirname, 'views'));
+//app.set('views', path.join(__dirname, 'views/hbs'));
 //app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
@@ -85,14 +102,17 @@ function templateLocals(req,res,next){
     next();
 }
 
+/**
+ * Set Routing
+ */
 app.use(authRoutes);
-app.use('/', routes);
 app.use('/api', api);
+app.use('/', routes);
 
-// Static Files
-//__dirname = current directory where this file is located
-// .
-var spaPath = path.resolve(".") + env.spaDir;
+/**
+ * Static Files
+ * __dirname = current directory where this file is located
+ */
 //var spaPath = path.join(__dirname, env.spaDir);
 console.log(' Setting SPA app on: '.cyan + spaPath);
 app.use('/r', express.static(spaPath));

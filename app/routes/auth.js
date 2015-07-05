@@ -90,7 +90,7 @@ router.route('/login')
 
 /* GET home page. */
 router.route('/logout')
-    .get((req, res) => {
+    .post((req, res) => {
         if(req.session){
             req.session.destroy();
         }

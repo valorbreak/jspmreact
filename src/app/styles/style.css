@@ -1,6 +1,11 @@
 body {
   background: #FFFFFF;
-  font-family: "Open Sans", Arial, sans-serif;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 200;
 }
 /* Links */
 a,
@@ -74,7 +79,6 @@ body {
   padding-right: 0;
   padding-left: 0;
   font-size: 16px;
-  font-weight: bold;
   color: #fff;
   /* IE8 proofing */
   color: rgba(255, 255, 255, 0.75);
@@ -108,7 +112,6 @@ body {
 }
 .cover .btn-lg {
   padding: 10px 20px;
-  font-weight: bold;
 }
 /*
  * Footer

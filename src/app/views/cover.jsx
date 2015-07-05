@@ -1,9 +1,9 @@
 'use strict';
 
-var React = require('react');
-var Layout = require('./layout');
+import React from 'react';
+import Layout from './layout.jsx';
 
-module.exports = React.createClass({
+let Cover = React.createClass({
     onButtonClick: function() {
         alert('I was rendered on server side but I am clickable because of client mounting!');
     },
@@ -47,3 +47,5 @@ module.exports = React.createClass({
         );
     }
 });
+
+export default Cover;

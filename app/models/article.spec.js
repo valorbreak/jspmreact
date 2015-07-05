@@ -70,16 +70,16 @@ describe('Entity Model - Using MONGODB', function(){
     });
 
 
-    it('Entity can be deleted from the database', function(done){
-        newDB.then(function(){
-                return Entity.findOne({title:'testtitle'});
-            })
-            .then(function(item){
-                var node = new Entity(item);
-                node.remove();
-                done();
-            });
-    });
+    //it('Entity can be deleted from the database', function(done){
+    //    newDB.then(function(){
+    //            return Entity.findOne({title:'testtitle'});
+    //        })
+    //        .then(function(item){
+    //            var node = new Entity(item);
+    //            node.remove();
+    //            done();
+    //        });
+    //});
 
 
 });

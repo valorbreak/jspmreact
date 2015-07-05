@@ -7,6 +7,7 @@
       "fetch": "github:github/fetch@^0.9.0",
       "jsx": "github:floatdrop/plugin-jsx@^1.1.0",
       "react": "npm:react@0.13.3",
+      "react-engine": "npm:react-engine@^1.7.0",
       "react-router": "npm:react-router@^1.0.0-alpha2",
       "webfontloader": "npm:webfontloader@^1.6.3"
     },

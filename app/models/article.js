@@ -13,6 +13,7 @@
 
 var _ = require('lodash');
 var PromiseJS = require('promise');
+var shortid = require('shortid');
 
 var db;
 
@@ -32,6 +33,7 @@ function setDatabase(database, collection){
 
 Article.schema = {
     '_id': null,    // Mongo Specific
+    'nid': shortid.generate(),    // Mongo Specific
     'title': null,
     'author': '',
     'body': '',

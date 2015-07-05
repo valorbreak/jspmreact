@@ -48,4 +48,4 @@ let LoginPartial = React.createClass({
     }
 });
 
-module.exports = LoginPartial;
+export default LoginPartial;
