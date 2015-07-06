@@ -3,6 +3,7 @@
 import React from 'react';
 import Layout from './layout.jsx';
 import Alert from './components/alert.jsx';
+import LogoutButton from './components/logout.button.jsx';
 
 let LoginForm = React.createClass({
     render: function () {
@@ -38,9 +39,7 @@ let LoginPartial = React.createClass({
                     {
                         (this.props.login) ?
                             (<LoginForm {...this.props} ></LoginForm>) :
-                            (<form method='post' action='/logout'>
-                                <button type='submit' className='btn btn-danger'>Logout</button>
-                            </form>)
+                            (<LogoutButton></LogoutButton>)
                     }
                 </div>
             </Layout>

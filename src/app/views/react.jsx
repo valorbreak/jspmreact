@@ -2,19 +2,14 @@
 
 import React from 'react';
 import Layout from './layout.jsx';
+import clientCode from './client';
 
 var api;
 var _;
-if(typeof window !== 'undefined' && window.document){
-    api = System.import('app/views/api')
-        .then(function(data){
-           return data.default;
-        });
 
-    _ = System.import('lodash')
-        .then(function(data){
-            return data;
-        });
+if(clientCode){
+    api = clientCode.dropkick.api;
+    _ = clientCode.dropkick._;
 }
 
 var states = {
@@ -41,9 +36,7 @@ let Index = React.createClass({
         return states;
     },
     componentDidMount: function(){
-        api.then(function(api){
-            return api.getDota();
-        }).then(function(data){
+        api.getDota().then(function(data){
             console.log(data,'newdata');
         });
         console.log(this.state,'state');

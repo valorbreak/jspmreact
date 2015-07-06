@@ -12,171 +12,6 @@ System.config({
     "*.jsx": "*.jsx",
     "github:*": "jspm_packages/github/*.js",
     "npm:*": "jspm_packages/npm/*.js"
-  },
-  "bundles": {
-    "main-bundle": [
-      "npm:process@0.10.1/browser",
-      "npm:react@0.13.3/lib/PooledClass",
-      "npm:react@0.13.3/lib/Object.assign",
-      "npm:react@0.13.3/lib/emptyObject",
-      "npm:react@0.13.3/lib/emptyFunction",
-      "npm:react@0.13.3/lib/ReactCurrentOwner",
-      "npm:react@0.13.3/lib/ReactRootIndex",
-      "npm:react@0.13.3/lib/getIteratorFn",
-      "npm:react@0.13.3/lib/ReactLifeCycle",
-      "npm:react@0.13.3/lib/ReactInstanceMap",
-      "npm:react@0.13.3/lib/CallbackQueue",
-      "npm:react@0.13.3/lib/ReactPerf",
-      "npm:react@0.13.3/lib/ReactOwner",
-      "npm:react@0.13.3/lib/ReactPropTypeLocations",
-      "npm:react@0.13.3/lib/ReactPropTypeLocationNames",
-      "npm:react@0.13.3/lib/ReactNativeComponent",
-      "npm:react@0.13.3/lib/Transaction",
-      "npm:react@0.13.3/lib/ReactErrorUtils",
-      "npm:react@0.13.3/lib/keyOf",
-      "npm:react@0.13.3/lib/mapObject",
-      "npm:react@0.13.3/lib/DOMProperty",
-      "npm:react@0.13.3/lib/escapeTextContentForBrowser",
-      "npm:react@0.13.3/lib/CSSProperty",
-      "npm:react@0.13.3/lib/ExecutionEnvironment",
-      "npm:react@0.13.3/lib/camelize",
-      "npm:react@0.13.3/lib/dangerousStyleValue",
-      "npm:react@0.13.3/lib/hyphenate",
-      "npm:react@0.13.3/lib/memoizeStringOnly",
-      "npm:react@0.13.3/lib/toArray",
-      "npm:react@0.13.3/lib/getMarkupWrap",
-      "npm:react@0.13.3/lib/ReactMultiChildUpdateTypes",
-      "npm:react@0.13.3/lib/setInnerHTML",
-      "npm:react@0.13.3/lib/EventPluginRegistry",
-      "npm:react@0.13.3/lib/accumulateInto",
-      "npm:react@0.13.3/lib/forEachAccumulated",
-      "npm:react@0.13.3/lib/ReactEventEmitterMixin",
-      "npm:react@0.13.3/lib/ViewportMetrics",
-      "npm:react@0.13.3/lib/isEventSupported",
-      "npm:react@0.13.3/lib/ReactEmptyComponent",
-      "npm:react@0.13.3/lib/adler32",
-      "npm:react@0.13.3/lib/isNode",
-      "npm:react@0.13.3/lib/getReactRootElementInContainer",
-      "npm:react@0.13.3/lib/ReactComponentEnvironment",
-      "npm:react@0.13.3/lib/shouldUpdateReactComponent",
-      "npm:react@0.13.3/lib/flattenChildren",
-      "npm:react@0.13.3/lib/EventPropagators",
-      "npm:react@0.13.3/lib/getTextContentAccessor",
-      "npm:react@0.13.3/lib/getEventTarget",
-      "npm:react@0.13.3/lib/SyntheticInputEvent",
-      "npm:react@0.13.3/lib/isTextInputElement",
-      "npm:react@0.13.3/lib/ClientReactRootIndex",
-      "npm:react@0.13.3/lib/DefaultEventPluginOrder",
-      "npm:react@0.13.3/lib/SyntheticUIEvent",
-      "npm:react@0.13.3/lib/getEventModifierState",
-      "npm:react@0.13.3/lib/HTMLDOMPropertyConfig",
-      "npm:react@0.13.3/lib/MobileSafariClickEventPlugin",
-      "npm:react@0.13.3/lib/findDOMNode",
-      "npm:react@0.13.3/lib/ReactDefaultBatchingStrategy",
-      "npm:react@0.13.3/lib/focusNode",
-      "npm:react@0.13.3/lib/LocalEventTrapMixin",
-      "npm:react@0.13.3/lib/ReactDOMImg",
-      "npm:react@0.13.3/lib/ReactDOMIframe",
-      "npm:react@0.13.3/lib/ReactPropTypes",
-      "npm:react@0.13.3/lib/ReactDOMOption",
-      "npm:react@0.13.3/lib/ReactDOMSelect",
-      "npm:react@0.13.3/lib/ReactDOMTextarea",
-      "npm:react@0.13.3/lib/EventListener",
-      "npm:react@0.13.3/lib/getUnboundedScrollPosition",
-      "npm:react@0.13.3/lib/ReactInjection",
-      "npm:react@0.13.3/lib/getNodeForCharacterOffset",
-      "npm:react@0.13.3/lib/getActiveElement",
-      "npm:react@0.13.3/lib/ReactPutListenerQueue",
-      "npm:react@0.13.3/lib/shallowEqual",
-      "npm:react@0.13.3/lib/ServerReactRootIndex",
-      "npm:react@0.13.3/lib/SyntheticClipboardEvent",
-      "npm:react@0.13.3/lib/SyntheticFocusEvent",
-      "npm:react@0.13.3/lib/getEventCharCode",
-      "npm:react@0.13.3/lib/getEventKey",
-      "npm:react@0.13.3/lib/SyntheticDragEvent",
-      "npm:react@0.13.3/lib/SyntheticTouchEvent",
-      "npm:react@0.13.3/lib/SyntheticWheelEvent",
-      "npm:react@0.13.3/lib/SVGDOMPropertyConfig",
-      "npm:react@0.13.3/lib/createFullPageComponent",
-      "npm:react@0.13.3/lib/ReactDefaultPerfAnalysis",
-      "npm:react@0.13.3/lib/performance",
-      "npm:react@0.13.3/lib/ReactServerRenderingTransaction",
-      "npm:react@0.13.3/lib/onlyChild",
-      "npm:process@0.10.1",
-      "npm:react@0.13.3/lib/warning",
-      "npm:react@0.13.3/lib/ReactInstanceHandles",
-      "npm:react@0.13.3/lib/ReactRef",
-      "npm:react@0.13.3/lib/ReactElementValidator",
-      "npm:react@0.13.3/lib/ReactClass",
-      "npm:react@0.13.3/lib/ReactDOM",
-      "npm:react@0.13.3/lib/quoteAttributeValueForBrowser",
-      "npm:react@0.13.3/lib/camelizeStyleName",
-      "npm:react@0.13.3/lib/hyphenateStyleName",
-      "npm:react@0.13.3/lib/createArrayFromMixed",
-      "npm:react@0.13.3/lib/setTextContent",
-      "npm:react@0.13.3/lib/EventPluginHub",
-      "npm:react@0.13.3/lib/ReactMarkupChecksum",
-      "npm:react@0.13.3/lib/isTextNode",
-      "npm:react@0.13.3/lib/ReactCompositeComponent",
-      "npm:react@0.13.3/lib/ReactChildReconciler",
-      "npm:react@0.13.3/lib/FallbackCompositionState",
-      "npm:react@0.13.3/lib/SyntheticEvent",
-      "npm:react@0.13.3/lib/ChangeEventPlugin",
-      "npm:react@0.13.3/lib/SyntheticMouseEvent",
-      "npm:react@0.13.3/lib/ReactBrowserComponentMixin",
-      "npm:react@0.13.3/lib/AutoFocusMixin",
-      "npm:react@0.13.3/lib/ReactDOMForm",
-      "npm:react@0.13.3/lib/LinkedValueUtils",
-      "npm:react@0.13.3/lib/ReactEventListener",
-      "npm:react@0.13.3/lib/ReactDOMSelection",
-      "npm:react@0.13.3/lib/SelectEventPlugin",
-      "npm:react@0.13.3/lib/SyntheticKeyboardEvent",
-      "npm:react@0.13.3/lib/performanceNow",
-      "npm:react@0.13.3/lib/ReactServerRendering",
-      "github:jspm/nodelibs-process@0.1.1/index",
-      "npm:react@0.13.3/lib/ReactContext",
-      "npm:react@0.13.3/lib/traverseAllChildren",
-      "npm:react@0.13.3/lib/ReactReconciler",
-      "npm:react@0.13.3/lib/DOMPropertyOperations",
-      "npm:react@0.13.3/lib/CSSPropertyOperations",
-      "npm:react@0.13.3/lib/createNodesFromMarkup",
-      "npm:react@0.13.3/lib/ReactBrowserEventEmitter",
-      "npm:react@0.13.3/lib/containsNode",
-      "npm:react@0.13.3/lib/instantiateReactComponent",
-      "npm:react@0.13.3/lib/ReactMultiChild",
-      "npm:react@0.13.3/lib/SyntheticCompositionEvent",
-      "npm:react@0.13.3/lib/EnterLeaveEventPlugin",
-      "npm:react@0.13.3/lib/ReactDOMButton",
-      "npm:react@0.13.3/lib/ReactDOMInput",
-      "npm:react@0.13.3/lib/ReactInputSelection",
-      "npm:react@0.13.3/lib/SimpleEventPlugin",
-      "npm:react@0.13.3/lib/ReactDefaultPerf",
-      "github:jspm/nodelibs-process@0.1.1",
-      "npm:react@0.13.3/lib/ReactElement",
-      "npm:react@0.13.3/lib/ReactUpdates",
-      "npm:react@0.13.3/lib/Danger",
-      "npm:react@0.13.3/lib/ReactMount",
-      "npm:react@0.13.3/lib/ReactDOMComponent",
-      "npm:react@0.13.3/lib/BeforeInputEventPlugin",
-      "npm:react@0.13.3/lib/ReactReconcileTransaction",
-      "npm:react@0.13.3/lib/invariant",
-      "npm:react@0.13.3/lib/ReactFragment",
-      "npm:react@0.13.3/lib/ReactUpdateQueue",
-      "npm:react@0.13.3/lib/DOMChildrenOperations",
-      "npm:react@0.13.3/lib/ReactDefaultInjection",
-      "npm:react@0.13.3/lib/keyMirror",
-      "npm:react@0.13.3/lib/ReactChildren",
-      "npm:react@0.13.3/lib/ReactComponent",
-      "npm:react@0.13.3/lib/ReactDOMIDOperations",
-      "npm:react@0.13.3/lib/EventConstants",
-      "npm:react@0.13.3/lib/ReactComponentBrowserEnvironment",
-      "npm:react@0.13.3/lib/EventPluginUtils",
-      "npm:react@0.13.3/lib/ReactDOMTextComponent",
-      "npm:react@0.13.3/lib/React",
-      "npm:react@0.13.3/react",
-      "npm:react@0.13.3",
-      "app/main"
-    ]
   }
 });
 
@@ -192,6 +27,7 @@ System.config({
     "lodash": "npm:lodash@3.10.0",
     "react": "npm:react@0.13.3",
     "react-engine": "npm:react-engine@1.7.0",
+    "react-tools": "npm:react-tools@0.14.0-alpha3",
     "require": "npm:require@2.4.18",
     "webfontloader": "npm:webfontloader@1.6.3",
     "github:floatdrop/plugin-jsx@1.1.0": {
@@ -284,7 +120,7 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
-    "npm:asn1.js@2.1.1": {
+    "npm:asn1.js@2.1.2": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "bn.js": "npm:bn.js@2.2.0",
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -295,7 +131,7 @@ System.config({
     "npm:assert@1.3.0": {
       "util": "npm:util@0.10.3"
     },
-    "npm:ast-types@0.6.16": {
+    "npm:ast-types@0.7.8": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
@@ -368,7 +204,7 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
-    "npm:commoner@0.10.1": {
+    "npm:commoner@0.10.3": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "child_process": "github:jspm/nodelibs-child_process@0.1.0",
@@ -378,14 +214,14 @@ System.config({
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "glob": "npm:glob@4.2.2",
       "graceful-fs": "npm:graceful-fs@3.0.8",
-      "iconv-lite": "npm:iconv-lite@0.4.10",
+      "iconv-lite": "npm:iconv-lite@0.4.11",
       "install": "npm:install@0.1.8",
       "mkdirp": "npm:mkdirp@0.5.1",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "private": "npm:private@0.1.6",
       "process": "github:jspm/nodelibs-process@0.1.1",
       "q": "npm:q@1.1.2",
-      "recast": "npm:recast@0.9.18",
+      "recast": "npm:recast@0.10.16",
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
     "npm:constants-browserify@0.0.1": {
@@ -478,11 +314,15 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.1",
       "through": "npm:through@2.3.8"
     },
-    "npm:esprima-fb@10001.1.0-dev-harmony-fb": {
+    "npm:esprima-fb@13001.1001.0-dev-harmony-fb": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
-    "npm:esprima-fb@13001.1001.0-dev-harmony-fb": {
+    "npm:esprima-fb@14001.1.0-dev-harmony-fb": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:esprima-fb@15001.1.0-dev-harmony-fb": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
@@ -578,7 +418,7 @@ System.config({
     "npm:https-browserify@0.0.0": {
       "http": "github:jspm/nodelibs-http@1.7.1"
     },
-    "npm:iconv-lite@0.4.10": {
+    "npm:iconv-lite@0.4.11": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.1",
       "stream": "github:jspm/nodelibs-stream@0.1.0",
@@ -606,6 +446,17 @@ System.config({
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "process": "github:jspm/nodelibs-process@0.1.1",
       "source-map": "npm:source-map@0.1.31"
+    },
+    "npm:jstransform@11.0.2": {
+      "base62": "npm:base62@1.1.0",
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "commoner": "npm:commoner@0.10.3",
+      "esprima-fb": "npm:esprima-fb@15001.1.0-dev-harmony-fb",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "object-assign": "npm:object-assign@2.1.1",
+      "process": "github:jspm/nodelibs-process@0.1.1",
+      "source-map": "npm:source-map@0.4.2",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
     "npm:lodash-node@3.10.0": {
       "process": "github:jspm/nodelibs-process@0.1.1"
@@ -635,7 +486,7 @@ System.config({
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
     "npm:minimatch@1.0.0": {
-      "lru-cache": "npm:lru-cache@2.6.4",
+      "lru-cache": "npm:lru-cache@2.6.5",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.1",
       "sigmund": "npm:sigmund@1.0.1"
@@ -666,7 +517,7 @@ System.config({
       "os": "github:jspm/nodelibs-os@0.1.0"
     },
     "npm:parse-asn1@3.0.1": {
-      "asn1.js": "npm:asn1.js@2.1.1",
+      "asn1.js": "npm:asn1.js@2.1.2",
       "browserify-aes": "npm:browserify-aes@1.0.1",
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "create-hash": "npm:create-hash@1.1.1",
@@ -740,16 +591,16 @@ System.config({
     },
     "npm:react-tools@0.13.3": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "commoner": "npm:commoner@0.10.1",
+      "commoner": "npm:commoner@0.10.3",
       "jstransform": "npm:jstransform@10.1.0",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
-    "npm:react@0.13.3": {
-      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "envify": "npm:envify@3.4.0",
+    "npm:react-tools@0.14.0-alpha3": {
+      "commoner": "npm:commoner@0.10.3",
+      "jstransform": "npm:jstransform@11.0.2",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
-    "npm:react@0.14.0-beta1": {
+    "npm:react@0.13.3": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "envify": "npm:envify@3.4.0",
       "process": "github:jspm/nodelibs-process@0.1.1"
@@ -766,14 +617,14 @@ System.config({
       "string_decoder": "npm:string_decoder@0.10.31",
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
-    "npm:recast@0.9.18": {
+    "npm:recast@0.10.16": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
-      "ast-types": "npm:ast-types@0.6.16",
-      "esprima-fb": "npm:esprima-fb@10001.1.0-dev-harmony-fb",
+      "ast-types": "npm:ast-types@0.7.8",
+      "esprima-fb": "npm:esprima-fb@14001.1.0-dev-harmony-fb",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "private": "npm:private@0.1.6",
       "process": "github:jspm/nodelibs-process@0.1.1",
-      "source-map": "npm:source-map@0.1.43"
+      "source-map": "npm:source-map@0.4.2"
     },
     "npm:require@2.4.18": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -832,6 +683,12 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:source-map@0.1.43": {
+      "amdefine": "npm:amdefine@0.1.1",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "path": "github:jspm/nodelibs-path@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:source-map@0.4.2": {
       "amdefine": "npm:amdefine@0.1.1",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0",

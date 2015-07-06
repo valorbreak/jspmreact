@@ -1,7 +1,7 @@
 import 'fetch'; // window.fetch polyfill
 
-class api {
-    getDota() {
+let api = {
+    getDota: function() {
         return fetch('http://www.reddit.com/r/dota2.json')
             .then(function(response) {
                 return response.text();
@@ -12,6 +12,6 @@ class api {
                     .map(x => x.data.title);
             });
     }
-}
+};
 
 export default api;

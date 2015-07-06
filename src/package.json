@@ -9,6 +9,7 @@
       "lodash": "npm:lodash@^3.10.0",
       "react": "npm:react@^0.14.0-beta1",
       "react-engine": "npm:react-engine@^1.7.0",
+      "react-tools": "npm:react-tools@^0.14.0-alpha3",
       "webfontloader": "npm:webfontloader@^1.6.3"
     },
     "devDependencies": {

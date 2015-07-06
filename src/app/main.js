@@ -1,7 +1,8 @@
 'use strict';
 
 import React from 'react';
-
+import _ from 'lodash';
+import api from 'app/api';
 //import Component from './views/react.jsx';
 
 // finally, boot whenever you are ready
@@ -24,3 +25,8 @@ var DOMloaded_event = new Event('DOMContentLoaded');
 document.addEventListener('DOMloaded_event', function(e){ console.log(e); });
 document.dispatchEvent(DOMloaded_event);
 })();
+
+window['__DROPKICK__'] = {
+    _ : _,
+    api: api
+};
