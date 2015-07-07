@@ -3,6 +3,7 @@
 import React from 'react/addons';
 import Layout from './layout.jsx';
 import LogoutButton from './components/logout.button.jsx';
+import AdminHeaderMenu from './components/admin-header-menu.jsx';
 import clientCode from './client';
 
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
@@ -23,14 +24,11 @@ var TableBody = React.createClass({
         console.log('did mount');
     },
     componentDidUpdate: function(props,state){
-        //var thisTable = this.getDOMNode();
-        var thisTable = React.findDOMNode(this);
+        var thisTable = React.findDOMNode(this); //var thisTable = this.getDOMNode();
         thisTable.style.color = '#309';
-        console.log('did update');
     },
     render: function () {
-        var rows = this.props.rows;
-        console.log(rows,'rows');
+        var rows = this.props.rows || [];
         var computedRows = rows.map(function(row,i){
             return (
                 <TableRow row={row} key={i}></TableRow>
@@ -40,7 +38,7 @@ var TableBody = React.createClass({
             <table className="table table-responsive table-striped">
                 <thead>
                 <tr>
-                    <th onClick={this.props.add}>Username</th>
+                    <th>Username</th>
                     <th>Email</th>
                     <th>Date Created</th>
                 </tr>
@@ -64,11 +62,6 @@ var TableRow = React.createClass({
     },
     componentDidUpdate: function(props,state){
         var thisTable = React.findDOMNode(this);
-        //setTimeout(function(){
-        //    thisTable.style.background("#000");
-        //}, 1000);
-        console.log('rowUpdate');
-        //console.log(props,state,'row update');
     },
     render: function render() {
         var row = this.props.row;
@@ -117,24 +110,33 @@ var Index = React.createClass({
         var users = this.props.users;
         var title = this.props.title;
         var ready = this.state.ready;
-
+        var styleColor = {
+            marginBottom: '10px'
+        };
         var buttons;
         if(ready){
             buttons = (
-                <div>
+                <span>
                     <button className="btn btn-default" onClick={this.add}>Add</button>
                     <button className="btn btn-default" onClick={this.remove}>Remove</button>
                     <button className="btn btn-default" onClick={this.sort}>Sort</button>
                     <button className="btn btn-default" onClick={this.callAPI}>CallAPI</button>
-                </div>
+                </span>
             )
         }
         return (
             <Layout title={title}>
                 <div className="container">
-                    <h2>{title}</h2>
+                    <h1>{title}</h1>
+                    <ReactCSSTransitionGroup style={styleColor}
+                                             component="div"
+                                             className="btn-group"
+                                             transitionName="example"
+                                             role="group" aria-label="...">
+
                     {buttons}
-                    <TableBody rows={users} add={this.add}></TableBody>
+                    </ReactCSSTransitionGroup>
+                        <TableBody rows={users}></TableBody>
                     <LogoutButton></LogoutButton>
                 </div>
             </Layout>

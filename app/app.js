@@ -93,7 +93,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Set Template Locals before Routes
 app.use(templateLocals);
@@ -113,10 +112,15 @@ app.use('/', routes);
  * Static Files
  * __dirname = current directory where this file is located
  */
+var oneDay = 86400000;
+var staticOptions = { maxAge: oneDay, etag: false };
 //var spaPath = path.join(__dirname, env.spaDir);
+
+app.use(express.static(path.join(__dirname, 'public'), staticOptions));
+
 console.log(' Setting SPA app on: '.cyan + spaPath);
-app.use('/r', express.static(spaPath));
-app.use('/r/*', express.static(spaPath));
+app.use('/r', express.static(spaPath, staticOptions ));
+app.use('/r/*', express.static(spaPath,  staticOptions));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -150,6 +154,8 @@ app.use(function(err, req, res, next) {
     });
 });
 
+// DISABLE ETAG?
+app.disable('etag');
 app.disable('x-powered-by');
 
 module.exports = app;

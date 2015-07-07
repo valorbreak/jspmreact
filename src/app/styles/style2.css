@@ -1,14 +1,29 @@
+@font-face {
+  font-family: 'texgyreherosregular';
+  src: url('/r/app/assets/fonts/texgyreheros-regular-webfont.eot');
+  src: url('/r/app/assets/fonts/texgyreheros-regular-webfont.eot?#iefix') format('embedded-opentype'), url('/r/app/assets/fonts/texgyreheros-regular-webfont.woff') format('woff'), url('/r/app/assets/fonts/texgyreheros-regular-webfont.ttf') format('truetype'), url('/r/app/assets/fonts/texgyreheros-regular-webfont.svg#texgyreherosregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+body {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, "texgyreherosregular", Arial, sans-serif;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 200;
+}
 .example-enter {
   opacity: 0.01;
-  transition: opacity 0.5s ease-in;
-  background: #403;
+  transition: opacity 0.25s ease-in;
 }
 .example-enter.example-enter-active {
   opacity: 1;
 }
 .example-leave {
   opacity: 1;
-  transition: opacity 0.5s ease-in;
+  transition: opacity 0.25s ease-in;
 }
 .example-leave.example-leave-active {
   opacity: 0.01;

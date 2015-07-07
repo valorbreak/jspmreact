@@ -3,20 +3,101 @@
 import React from 'react';
 import Layout from './layout.jsx';
 import Alert from './components/alert.jsx';
+import AdminHeaderMenu from './components/admin-header-menu.jsx';
+
+let style = {
+    panelStyle: {
+        marginBottom: '15px',
+        padding: '8px 10px 8px 16px',
+        borderLeft: '1px solid #AAA',
+        background: '#FFF'
+    },
+    panelStyle2: {
+        marginBottom: '15px',
+        padding: '8px 10px 8px 16px',
+        borderLeft: '1px solid #AAA',
+        background: '#FAFAFA'
+    },
+    description: {
+        color: '#666'
+    },
+    link: {
+        fontSize: '16px'
+    }
+};
+
+let AdminPanel = React.createClass({
+    getInitialState: function () {
+        return {hover: false};
+    },
+    mouseOver: function () {
+        this.setState({hover: true});
+    },
+    mouseOut: function () {
+        this.setState({hover: false});
+    },
+    componentDidMount: function(){
+        console.info('react did mount');
+    },
+    render: function (){
+        var row = this.props.row;
+        var panelStyle = style.panelStyle;
+        if (this.state.hover) {
+            panelStyle = style.panelStyle2;
+        }
+        return (
+            <div onMouseOver={this.mouseOver}
+                 onMouseOut={this.mouseOut}
+                 style={panelStyle}>
+                <div style={style.link}><a href={row.link}>{row.name}</a></div>
+                <div style={style.description}>{row.description}</div>
+            </div>
+        )
+    }
+});
+
+let AdminMenu = React.createClass({
+
+    render: function () {
+        var items = this.props.menu.items;
+        return (
+            <div>
+                {items.map(function(row,i){
+                    return (
+                        <AdminPanel row={row} key={i}></AdminPanel>
+                    )
+                })}
+            </div>
+        );
+    }
+});
+
+let UserMenu = React.createClass({
+    render: function () {
+        return (
+            <div className="pull-right" style={{margin: '20px 0px 20px 20px'}}>Welcome: {this.props.user.username}</div>
+        )
+    }
+});
 
 let Index = React.createClass({
     handleClick: function(event) {
         alert('clicked');
     },
-    render: function render() {
+    render: function () {
         return (
             <Layout>
                 <div className="container">
-                    <a href="/react">react link</a>
-                    <h1 style={{fontWeight:'200'}}>{this.props.title}</h1>
-                    <p>{this.props.body}</p>
+                    <AdminHeaderMenu menu={this.props.menu}></AdminHeaderMenu>
+                    <div className="row">
+                        <div className="col-md-12">
+                            <h1 className="pull-left" style={{fontWeight:'200'}}>{this.props.title}</h1>
+                            <UserMenu user={this.props.session.user}></UserMenu>
+                        </div>
+                    </div>
                     <Alert info={this.props.info}></Alert>
-                    <button onClick={this.handleClick}>this is clickable</button>
+                    <p>{this.props.body}</p>
+                    <AdminMenu menu={this.props.menu}></AdminMenu>
                 </div>
                 <script type="text/javascript" src="javascripts/test.js"></script>
             </Layout>

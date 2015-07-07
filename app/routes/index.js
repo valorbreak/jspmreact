@@ -2,6 +2,7 @@
 
 var express = require('express');
 var usersRoute = require('./user');
+var adminRoute = require('./admin');
 
 var router = express.Router();
 
@@ -16,11 +17,19 @@ router.get('/', function (req, res) {
     res.render('cover', props);
 });
 
+// Admin Access
+router.use('/admin', adminRoute);
+
+// Handle routing on the client side
 router.use('/react',function(req,res){
-    res.render('react', {title:'testexample'});
+    res.render('react', {title:'testexample',url:req.url, params: req.params,query: req.query});
 });
 
-router.use('/user',usersRoute);
+// Handle routing on the client side
+router.get('/test',function(req,res){
+    res.render('react', {title:'testexample',url:req.url, params: req.params,query: req.query});
+});
+
 //router.use('/test',testRoute);
 
 module.exports = router;

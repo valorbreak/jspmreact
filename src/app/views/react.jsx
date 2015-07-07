@@ -36,10 +36,15 @@ let Index = React.createClass({
         return states;
     },
     componentDidMount: function(){
+        console.info('react did mount');
+        console.log(this.props.url,'url');
+        console.log(this.props.params,'params');
+        console.log(this.props.query,'query');
+    },
+    callAPI: function(){
         api.getDota().then(function(data){
             console.log(data,'newdata');
         });
-        console.log(this.state,'state');
     },
     render: function () {
         var value = this.state.value;
@@ -51,7 +56,10 @@ let Index = React.createClass({
                     <input type="text" value={value} onChange={this.handleChange} />
                     <h1 style={{color:this.state.color}}> Title: {this.state.color} {this.props.title}</h1>
                     <p>Body {this.props.body}</p>
-                    <button className="btn btn-default" onClick={this.handleClick}>this is clickable</button>
+                    <div className="btn-group">
+                        <button className="btn btn-default" onClick={this.callAPI}>CallAPI</button>
+                        <button className="btn btn-default" onClick={this.handleClick}>this is clickable</button>
+                    </div>
                 </div>
             </Layout>
         );

@@ -7,18 +7,6 @@ import csrf from 'csurf';
 let router = express.Router();
 let csrfProtection = csrf();
 
-let requireLogin = require('./authrules').requireLogin;
-
-/* GET home page. */
-router.get('/admin',requireLogin, (req, res) => {
-    let info = req.flash('info');
-    res.locals.sessid = req.cookies.sessid;
-    if(req.session && req.session.user){
-        res.locals.session = req.session;
-    }
-    res.render('admin', {title: 'Admin Pages', baseUrl: '/r',body:'Next Generation CMS', info: info});
-});
-
 /* Login Pages */
 router.route('/login')
     .get(csrfProtection, (req, res) => {

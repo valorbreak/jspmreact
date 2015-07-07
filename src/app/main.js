@@ -1,15 +1,20 @@
 'use strict';
 
-import React from 'react';
+import React from 'react/addons';
 import _ from 'lodash';
 import api from 'app/api';
 //import Component from './views/react.jsx';
+//import NewComp from './views/user.jsx';
 
 // finally, boot whenever you are ready
 // example:
 document.addEventListener('DOMContentLoaded', function (event) {
     var data = window['__REACT_ENGINE__'];
     //var data = Client.data();
+    //if(data){
+    //    React.render(<NewComp {...data} />, document);
+    //}
+
     if(data){
         var Component = System.import('./app/views/'+ data.__meta.view);
         Component.then(function(comp){
@@ -19,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     }
 });
 
+//React.render(<NewComp {...data} />, document);
 
 (function() {
 var DOMloaded_event = new Event('DOMContentLoaded');

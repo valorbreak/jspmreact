@@ -8,9 +8,6 @@ if (typeof window !== 'undefined' && typeof document !== 'undefined') {
     _document = document;
 
     var dynObj = {};
-    System.import('app/api').then(function(data){
-        dynObj.api = data.default;
-    });
 
     // Make this available
     clientCode = {
