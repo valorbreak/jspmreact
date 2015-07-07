@@ -82,6 +82,7 @@ app.engine('.jsx', engine);
 app.set('views', spaPath+ "/app/views");
 app.set('view engine', 'jsx');
 app.set('view', renderer.expressView);
+//app.set('view cache', true);
 
 // view engine setup
 //app.set('views', path.join(__dirname, 'views/hbs'));
@@ -155,7 +156,7 @@ app.use(function(err, req, res, next) {
 });
 
 // DISABLE ETAG?
-app.disable('etag');
+//app.disable('etag');
 app.disable('x-powered-by');
 
 module.exports = app;

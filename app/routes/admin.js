@@ -22,18 +22,53 @@ router.get('/',requireLogin, (req, res) => {
             items: [
                 {
                     name: 'Users',
-                    description: 'Configure user settings',
-                    link: '/admin/users'
+                    description: 'Manage user accounts',
+                    link: '/admin/users',
+                    items: [
+                        {
+                            name: 'Manage',
+                            description: 'Manage user accounts',
+                            link: '/admin/users/manage',
+
+
+                        }
+                    ]
                 },
                 {
                     name: 'System',
                     description: 'System-Wide Settings',
-                    link: '/admin/settings'
+                    link: '/admin/settings',
+                    items: [
+                        {
+                            name: 'Manage',
+                            description: 'Manage user accounts',
+                            link: '/admin/users/manage',
+                        }
+                    ]
                 },
                 {
                     name: 'Structure',
                     description: 'Content types and taxonomies',
-                    link: '/admin/structure'
+                    link: '/admin/structure',
+                    items: [
+                        {
+                            name: 'Manage1',
+                            description: 'Manage user accounts',
+                            link: '/admin/users/manage',
+                            items: [
+                                {
+                                    name: 'Manage2',
+                                    description: 'Manage user accounts',
+                                    link: '/admin/users/manage',
+                                },
+                                {
+                                    name: 'Manage2',
+                                    description: 'Manage user accounts',
+                                    link: '/admin/users/manage',
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         },

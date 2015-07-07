@@ -7,16 +7,16 @@ import AdminHeaderMenu from './components/admin-header-menu.jsx';
 
 let style = {
     panelStyle: {
-        marginBottom: '15px',
+        margin: '15px 0',
         padding: '8px 10px 8px 16px',
         borderLeft: '1px solid #AAA',
         background: '#FFF'
     },
     panelStyle2: {
-        marginBottom: '15px',
+        margin: '15px 0',
         padding: '8px 10px 8px 16px',
         borderLeft: '1px solid #AAA',
-        background: '#FAFAFA'
+        background: '#EEE'
     },
     description: {
         color: '#666'
@@ -45,19 +45,26 @@ let AdminPanel = React.createClass({
         if (this.state.hover) {
             panelStyle = style.panelStyle2;
         }
+        var children = (<div></div>);
+        if(this.props.row.items && this.props.row.items.length > 0){
+            var menu =  {
+                items: this.props.row.items
+            };
+            children = (<AdminMenu menu={menu}></AdminMenu>);
+        }
         return (
             <div onMouseOver={this.mouseOver}
                  onMouseOut={this.mouseOut}
                  style={panelStyle}>
                 <div style={style.link}><a href={row.link}>{row.name}</a></div>
                 <div style={style.description}>{row.description}</div>
+                {children}
             </div>
         )
     }
 });
 
 let AdminMenu = React.createClass({
-
     render: function () {
         var items = this.props.menu.items;
         return (
