@@ -4,7 +4,28 @@ var express = require('express');
 var _ = require('lodash');
 var router = express.Router();
 var entityRoute = require('./entity');
+//var reddit = require('../models/reddit');
+//var janelia = require('../models/janelia');
+var colors = require('colors'); // add functions to the String.prototype
 var User = require('../models/user'); // add functions to the String.prototype
+
+//var api = reddit;
+
+/* GET home page. */
+//router.get('/', function (req, res) {
+//    api.dota2().then(function(data){
+//        console.log('REQUEST: [91m Dota 2'.green );
+//        res.render('test/index', {
+//            title: 'API Start',
+//            content: data,
+//            layout: 'newLayout',
+//            baseUrl: '/react'
+//        },
+//        function(err,html){
+//            console.log(html,'teml');
+//        });
+//    });
+//});
 
 /* GET users listing. */
 router.route('/users')

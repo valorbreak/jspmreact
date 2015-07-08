@@ -106,7 +106,6 @@ let Index = React.createClass({
                     <p>{this.props.body}</p>
                     <AdminMenu menu={this.props.menu}></AdminMenu>
                 </div>
-                <script type="text/javascript" src="javascripts/test.js"></script>
             </Layout>
         );
     }

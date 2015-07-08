@@ -1,7 +1,7 @@
 "use strict";
 
 var express = require('express');
-var usersRoute = require('./user');
+var userRoute = require('./user');
 var adminRoute = require('./admin');
 
 var router = express.Router();

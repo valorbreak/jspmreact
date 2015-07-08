@@ -89,7 +89,7 @@ router.route('/logout')
 router.route('/register')
     .get((req, res) => {
         let info = req.flash('info');
-        res.render('register', {title: 'Login',body:'Welcome to dropkick',info: info});
+        res.render('register', {title: 'Login',body:'',info: info});
     })
     .post((req, res) => {
         if(req.body.username && req.body.email && req.body.password){

@@ -2,13 +2,15 @@
 
 import express from 'express';
 import User from '../models/user';
+import userRoute from './user';
 
 let router = express.Router();
 let requireLogin = require('./authrules').requireLogin;
 
-// Routes for '/admin'
+// RequireLogin Applies to all routes under admin
+router.use(requireLogin);
 
-router.get('/',requireLogin, (req, res) => {
+router.get('/', (req, res) => {
     let info = req.flash('info');
 
     if(req.session && req.session.user){
@@ -77,7 +79,7 @@ router.get('/',requireLogin, (req, res) => {
 });
 
 
-router.use('/users',requireLogin, (req,res) => {
+router.use('/users', (req,res) => {
     User.findAll({},{limit:10,sort:'username', fields: {_id:0,password:0}})
         .then(function(results){
             res.render('user', {title:'Users', users:results, params: req.params, query: req.query});
@@ -87,6 +89,7 @@ router.use('/users',requireLogin, (req,res) => {
         });
 });
 
+router.use('/user', userRoute);
 
 //res.locals.sessid = req.cookies.sessid;
 //if(req.session && req.session.user){
