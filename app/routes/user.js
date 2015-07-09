@@ -37,9 +37,11 @@ router.get('/react',function(req,res){
 /* GET user detailed listing. */
 router.get('/:id', requireLogin, function (req, res) {
     var userid = req.params.id;
+    res.locals.params = req.params;
+
     User.findByUsername(userid)
         .then(function(result){
-            res.json(result);
+            res.render('user', {user: result, state: 'addUser'});
         })
         .catch(function(err){
             res.json(err);

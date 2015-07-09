@@ -97,8 +97,11 @@ app.use(cookieParser());
 
 // Set Template Locals before Routes
 app.use(templateLocals);
+
 function templateLocals(req,res,next){
     res.locals.baseUrl = '/r';
+    res.locals.url = req.url;
+    res.locals.query = req.query;
     next();
 }
 

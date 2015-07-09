@@ -5,6 +5,8 @@ import Layout from './layout.jsx';
 import LogoutButton from './components/logout.button.jsx';
 import AdminHeaderMenu from './components/admin-header-menu.jsx';
 import clientCode from './client';
+import Backbone from 'backbone';
+import _ from 'lodash';
 
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
@@ -65,9 +67,10 @@ var TableRow = React.createClass({
     },
     render: function render() {
         var row = this.props.row;
+        var userLink = '/admin/user/'+ row.username;
         return (
             <tr>
-                <td>{row.username}</td>
+                <td><a href={userLink}>{row.username}</a></td>
                 <td>{row.email}</td>
                 <td>{ new Date(row.created).toDateString() }</td>
             </tr>
@@ -75,10 +78,72 @@ var TableRow = React.createClass({
     }
 });
 
+// Backbone AppRouter
+var AppRouter;
+
 var Index = React.createClass({
     getInitialState: function() {
+
+        // Routing is done through Backbone
+        var Router = Backbone.Router.extend({
+            routes : {
+                "admin/user/:id" : "user",
+                "admin/users" : "index",
+                "admin/users/add" : "addUser"
+            },
+            index : function(){
+                this.state.router.route = 'index';
+                this.setState(this.state);
+            }.bind(this),
+            user : function(id){
+                console.log('admin',id);
+                console.log(AppRouter.current(),'current');
+                this.state.params.id = id;
+                this.setState(this.state);
+            }.bind(this),
+            addUser : function(){
+                this.state.router.route = 'addUser';
+                this.setState(this.state);
+            }.bind(this),
+            current : function(serverUrl) {
+                // http://stackoverflow.com/questions/7563949/backbone-js-get-current-route
+                var Router = this,
+                    fragment = Backbone.history.fragment,
+                    routes = _.pairs(Router.routes),
+                    route = null, params = null, matched;
+
+                if(serverUrl){
+                    fragment = serverUrl;
+                }
+
+                matched = _.find(routes, function(handler) {
+                    route = _.isRegExp(handler[0]) ? handler[0] : Router._routeToRegExp(handler[0]);
+                    return route.test(fragment);
+                });
+
+                if(matched) {
+                    // NEW: Extracts the params using the internal
+                    // function _extractParameters
+                    params = Router._extractParameters(route, fragment);
+                    route = matched[1];
+                }
+
+                return {
+                    route : route,
+                    fragment : fragment,
+                    params : params
+                };
+            }
+        });
+
+        AppRouter = new Router();
+
         return {
-            ready: false
+            params: this.props.params,
+            url: this.props.url,
+            ready: false,
+            addUser: false,
+            router: AppRouter.current(this.props.url.substr(1))
         }
     },
     callAPI: function(){
@@ -88,6 +153,10 @@ var Index = React.createClass({
         });
     },
     add: function(e){
+        this.state.addUser = true;
+        this.setState(this.state);
+    },
+    add2: function(e){
         var users = this.props.users;
         users.push(users[0]);
         this.setProps(this.props);
@@ -103,6 +172,25 @@ var Index = React.createClass({
         this.setProps(this.props);
     },
     componentDidMount: function(){
+        var compDOM = React.findDOMNode(this);
+
+        // Backbone Configuration
+        // Enable HTML5 History API - Push State
+        $(compDOM).on("click", "a[href^='/']", function(e) {
+            var href, url;
+            href = $(e.currentTarget).attr('href');
+            if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                e.preventDefault();
+                url = href.replace(/^\//, '').replace('\#\!\/', '');
+                AppRouter.navigate(url, {
+                    trigger: true
+                });
+                return false;
+            }
+        });
+
+        Backbone.history.start({pushState:true});
+
         this.state.ready = true;
         this.setState(this.state);
     },
@@ -110,39 +198,54 @@ var Index = React.createClass({
         var users = this.props.users;
         var title = this.props.title;
         var ready = this.state.ready;
+        this.state.url = this.props.url;
+
         var styleColor = {
             marginBottom: '10px'
         };
+
         var buttons;
         if(ready){
             buttons = (
                 <span>
-                    <button className="btn btn-default" onClick={this.add}>Add</button>
+                    <a href='/admin/users' className="btn btn-default">foo</a>
+                    <a href='/admin/users/add' className="btn btn-default">Add</a>
                     <button className="btn btn-default" onClick={this.remove}>Remove</button>
                     <button className="btn btn-default" onClick={this.sort}>Sort</button>
                     <button className="btn btn-default" onClick={this.callAPI}>CallAPI</button>
                 </span>
             )
         }
+
+        var userAdd;
+
+        if(this.state.router.route === 'addUser'){
+            userAdd = (
+                <div>User add form</div>
+            )
+        }
+
         return (
             <Layout title={title}>
                 <div className="container">
-                    <h1>{title}</h1>
+                    <h1><a href="/admin/users">{title}</a></h1>
                     <ReactCSSTransitionGroup style={styleColor}
                                              component="div"
                                              className="btn-group"
                                              transitionName="example"
                                              role="group" aria-label="...">
-
                     {buttons}
                     </ReactCSSTransitionGroup>
-                        <TableBody rows={users}></TableBody>
+                    {userAdd}
+                    <TableBody rows={users}></TableBody>
                     <LogoutButton></LogoutButton>
                 </div>
+                <div className="debug">{this.props.debug}</div>
             </Layout>
         );
     }
 });
+
 
 function objSort(prop){
     return function (a, b) {

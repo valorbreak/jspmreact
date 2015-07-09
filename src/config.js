@@ -19,10 +19,12 @@ System.config({
   "map": {
     "babel": "npm:babel-core@5.5.7",
     "babel-runtime": "npm:babel-runtime@5.5.7",
+    "backbone": "npm:backbone@1.2.1",
     "bootstrap": "github:twbs/bootstrap@3.3.4",
     "core-js": "npm:core-js@0.9.16",
     "css": "github:systemjs/plugin-css@0.1.12",
     "fetch": "github:github/fetch@0.9.0",
+    "jquery": "github:components/jquery@2.1.4",
     "jsx": "github:floatdrop/plugin-jsx@1.1.0",
     "lodash": "npm:lodash@3.10.0",
     "react": "npm:react@0.13.3",
@@ -140,6 +142,10 @@ System.config({
     },
     "npm:babel-runtime@5.5.7": {
       "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:backbone@1.2.1": {
+      "process": "github:jspm/nodelibs-process@0.1.1",
+      "underscore": "npm:underscore@1.8.3"
     },
     "npm:brace-expansion@1.1.0": {
       "balanced-match": "npm:balanced-match@0.2.0",

@@ -118,7 +118,7 @@ Article.findAll = function (searchObject,options) {
     return new PromiseJS(function(resolve,reject) {
         db.find(searchObject,options).toArray(function(err,res){
             if(err){
-                console.error(' Article Object: can\'t find Articlename' );
+                console.error(' Article Object: can\'t find Article' );
                 reject(err);
             }
             resolve(res);
@@ -130,7 +130,7 @@ Article.findOne = function (searchObject){
     return new PromiseJS(function(resolve,reject){
         db.findOne(searchObject, function(err,res){
             if(err){
-                console.error(' Article Object: can\'t find Articlename' );
+                console.error(' Article Object: can\'t find Article' );
                 resolve(err);
             }
             resolve(res);

@@ -29,6 +29,9 @@ User.setDB = setDatabase;
 function setDatabase(database, collection){
     collection = collection || 'users';
     db = database.collection(collection);
+    db.createIndex({username: 1},{unique: true},function(err,data){
+        if(err){throw err;}
+    });
 }
 
 User.schema = {

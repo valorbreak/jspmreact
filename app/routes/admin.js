@@ -30,9 +30,7 @@ router.get('/', (req, res) => {
                         {
                             name: 'Manage',
                             description: 'Manage user accounts',
-                            link: '/admin/users/manage',
-
-
+                            link: '/admin/users/manage'
                         }
                     ]
                 },
@@ -44,7 +42,7 @@ router.get('/', (req, res) => {
                         {
                             name: 'Manage',
                             description: 'Manage user accounts',
-                            link: '/admin/users/manage',
+                            link: '/admin/users/manage'
                         }
                     ]
                 },
@@ -61,12 +59,12 @@ router.get('/', (req, res) => {
                                 {
                                     name: 'Manage2',
                                     description: 'Manage user accounts',
-                                    link: '/admin/users/manage',
+                                    link: '/admin/users/manage'
                                 },
                                 {
                                     name: 'Manage2',
                                     description: 'Manage user accounts',
-                                    link: '/admin/users/manage',
+                                    link: '/admin/users/manage'
                                 }
                             ]
                         }
