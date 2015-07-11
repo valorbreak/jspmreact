@@ -56,6 +56,12 @@ router.route('/user')
             res.json({'error': 'Invalid Parameters'});
         }
 
+    })
+    .delete(function(req,res){
+
+        res.status(404)
+            .json({'nice':'nice'});
+
     });
 
 

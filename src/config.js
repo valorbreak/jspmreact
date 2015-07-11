@@ -23,6 +23,7 @@ System.config({
     "bootstrap": "github:twbs/bootstrap@3.3.4",
     "core-js": "npm:core-js@0.9.16",
     "css": "github:systemjs/plugin-css@0.1.12",
+    "event-emitter": "npm:event-emitter@0.3.3",
     "fetch": "github:github/fetch@0.9.0",
     "jquery": "github:components/jquery@2.1.4",
     "jsx": "github:floatdrop/plugin-jsx@1.1.0",
@@ -282,6 +283,9 @@ System.config({
       "public-encrypt": "npm:public-encrypt@2.0.1",
       "randombytes": "npm:randombytes@2.0.1"
     },
+    "npm:d@0.1.1": {
+      "es5-ext": "npm:es5-ext@0.10.7"
+    },
     "npm:debug@2.2.0": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "ms": "npm:ms@0.7.1",
@@ -320,6 +324,20 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.1",
       "through": "npm:through@2.3.8"
     },
+    "npm:es5-ext@0.10.7": {
+      "es6-iterator": "npm:es6-iterator@0.1.3",
+      "es6-symbol": "npm:es6-symbol@2.0.1",
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:es6-iterator@0.1.3": {
+      "d": "npm:d@0.1.1",
+      "es5-ext": "npm:es5-ext@0.10.7",
+      "es6-symbol": "npm:es6-symbol@2.0.1"
+    },
+    "npm:es6-symbol@2.0.1": {
+      "d": "npm:d@0.1.1",
+      "es5-ext": "npm:es5-ext@0.10.7"
+    },
     "npm:esprima-fb@13001.1001.0-dev-harmony-fb": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "process": "github:jspm/nodelibs-process@0.1.1"
@@ -336,6 +354,11 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2"
+    },
+    "npm:event-emitter@0.3.3": {
+      "d": "npm:d@0.1.1",
+      "es5-ext": "npm:es5-ext@0.10.7",
+      "events": "github:jspm/nodelibs-events@0.1.1"
     },
     "npm:express@4.13.0": {
       "accepts": "npm:accepts@1.2.10",

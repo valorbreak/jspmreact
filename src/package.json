@@ -5,6 +5,7 @@
       "backbone": "npm:backbone@^1.2.1",
       "bootstrap": "github:twbs/bootstrap@^3.3.4",
       "css": "github:systemjs/plugin-css@^0.1.12",
+      "event-emitter": "npm:event-emitter@^0.3.3",
       "fetch": "github:github/fetch@^0.9.0",
       "jquery": "github:components/jquery@^2.1.4",
       "jsx": "github:floatdrop/plugin-jsx@^1.1.0",

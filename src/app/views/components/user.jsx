@@ -1,9 +1,5 @@
 'use strict';
 
-/**
- * Server and Client SHARED CODE
- * Packages must be available for JSPM and NPM
- */
 import React from 'react/addons';
 import Layout from './layout.jsx';
 import LogoutButton from './components/logout.button.jsx';
@@ -17,7 +13,7 @@ var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 var Client;
 
 if(clientCode){
-    Client = clientCode.dropkick;
+    Client = window['__DROPKICK__'];
 }
 
 var TableBody = React.createClass({
@@ -60,7 +56,7 @@ var TableBody = React.createClass({
 var TableRow = React.createClass({
     componentWillUnmount: function(){
         var thisTable = React.findDOMNode(this);
-        //console.log('will unmount');
+        console.log('will unmount');
         thisTable.style.background = '#890';
     },
     componentWillLeave: function(){
@@ -100,27 +96,14 @@ var UserAdd = React.createClass({
             email: React.findDOMNode(this.refs.email).value.trim()
         };
 
-        // Send request to the server
-        Client.Actions.registerUser(formObj)
-            .then(function(response) {
-                if(!response.ok){
-                    throw response;
-                }
-                return response.text();
-            })
-            .then(function(body) {
-                return JSON.parse(body);
-            })
-            .then(function(data){
-                React.findDOMNode(this.refs.username).value = '';
-                React.findDOMNode(this.refs.password).value = '';
+        console.log(formObj,'obj');
 
-                AppRouter.navigate('/admin/users', {trigger: true});
-            }.bind(this))
-            .catch(function(response){
-                console.log(response, 'Something wrong happened');
-            });
+        // TODO: send request to the server
 
+        React.findDOMNode(this.refs.username).value = '';
+        React.findDOMNode(this.refs.password).value = '';
+
+        return;
     },
     handleChange: function(e){
         console.log('onChange',e.target.value,e);
@@ -157,47 +140,21 @@ var UserAdd = React.createClass({
     }
 });
 
-var MenuButtons = React.createClass({
-    componentDidMount: function() {
-        // Running on Client after server render
-        var compDOM = React.findDOMNode(this);
+var UserStore = {
 
-        // Backbone Configuration
-        // Enable HTML5 History API - Push State
-        $(compDOM).on("click", "a[href^='/']", function(e) {
-            var href, url;
-            href = $(e.currentTarget).attr('href');
-            if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
-                e.preventDefault();
-                url = href.replace(/^\//, '').replace('\#\!\/', '');
-                AppRouter.navigate(url, {
-                    trigger: true
-                });
-                return false;
-            }
-        });
-    },
-    remove: function() {
-        Client.Actions.doSomething();
-    },
-    callAPI: function() {
-        Client.Actions.getUsers()
-            .then(function(data){
-                console.log(data);
-            });
-    },
-    render: function(){
-        return (
-            <span>
-                <a href='/admin/users' className="btn btn-default">Index</a>
-                <a href='/admin/users/add' className="btn btn-default">Add</a>
-                <button className="btn btn-default" onClick={this.remove}>Remove</button>
-                <button className="btn btn-default" onClick={this.sort}>Sort</button>
-                <button className="btn btn-default" onClick={this.callAPI}>CallAPI</button>
-            </span>
-        );
-    }
-});
+};
+//
+//var UserStore = _.extend({}, EventEmitter.prototype, {
+//    getUsers: function() {
+//
+//    },
+//    getUserCount: function() {
+//
+//    }
+//});
+//var UserStore = _.extend({}, EventEmitter.prototype,{
+//
+//});
 
 var Index = React.createClass({
     getDefaultProps: function() {
@@ -214,17 +171,16 @@ var Index = React.createClass({
                 "admin/users/add" : "addUser"
             },
             index : function(){
-                this.state.router = AppRouter.current(this.props.url.substr(1));
                 this.state.router.route = 'index';
                 this.setState(this.state);
             }.bind(this),
             user : function(id){
-                this.state.router = AppRouter.current(this.props.url.substr(1));
-                this.state.router.route = 'user';
+                console.log('admin',id);
+                console.log(AppRouter.current(),'current');
+                this.state.params.id = id;
                 this.setState(this.state);
             }.bind(this),
             addUser : function(){
-                this.state.router = AppRouter.current(this.props.url.substr(1));
                 this.state.router.route = 'addUser';
                 this.setState(this.state);
             }.bind(this),
@@ -278,46 +234,91 @@ var Index = React.createClass({
         }
     },
     componentDidMount: function(){
+        // Running on Client after server render
+        var compDOM = React.findDOMNode(this);
+
+        // Backbone Configuration
+        // Enable HTML5 History API - Push State
+        $(compDOM).on("click", "a[href^='/']", function(e) {
+            var href, url;
+            href = $(e.currentTarget).attr('href');
+            if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                e.preventDefault();
+                url = href.replace(/^\//, '').replace('\#\!\/', '');
+                AppRouter.navigate(url, {
+                    trigger: true
+                });
+                return false;
+            }
+        });
+
         Backbone.history.start({pushState:true});
 
         this.state.ready = true;
+        console.log(this.state,'state');
+        console.log(this.props,'props');
         this.setState(this.state);
     },
-
+    callAPI: function(){
+        var api = Client.api;
+        api.getDota().then(function(data){
+            console.log(data,'data');
+        });
+    },
+    add: function(e){
+        this.state.addUser = true;
+        this.setState(this.state);
+    },
+    add2: function(e){
+        var users = this.props.users;
+        users.push(users[0]);
+        this.setProps(this.props);
+    },
+    remove: function(e){
+        var users = this.props.users;
+        users.pop();
+        this.setProps(this.props);
+    },
+    sort: function(e){
+        var users = this.props.users;
+        this.props.users = users.sort(objSort('email'));
+        this.setProps(this.props);
+    },
     render: function render() {
+        var users = this.props.users;
+        var title = this.props.title;
+
         var styleColor = {
             marginBottom: '10px'
         };
 
         var buttons;
         if(this.state.ready){
-            buttons = (<MenuButtons></MenuButtons>)
+            buttons = (
+                <span>
+                    <a href='/admin/users' className="btn btn-default">foo</a>
+                    <a href='/admin/users/add' className="btn btn-default">Add</a>
+                    <button className="btn btn-default" onClick={this.remove}>Remove</button>
+                    <button className="btn btn-default" onClick={this.sort}>Sort</button>
+                    <button className="btn btn-default" onClick={this.callAPI}>CallAPI</button>
+                </span>
+            )
         }
 
-        var comp = {};
+        var addUser;
 
-        var route = this.state.router.route;
-        console.log(this.state.router,'route');
-        if(route === 'addUser'){
-            comp.addUser = (
+        if(this.state.router.route === 'addUser'){
+            addUser = (
                 <div style={{margin: '20px 0'}}>
                     <UserAdd></UserAdd>
                 </div>
             )
-        } else if(route === 'user') {
-            comp.user = (
-                <div>User Profile: <div>{this.props.user.username || ''}</div></div>
-            )
-        } else{
-            comp.default = (
-                <TableBody rows={this.props.users}></TableBody>
-            )
         }
 
         return (
-            <Layout title={this.props.title}>
+            <Layout title={title}>
                 <div className="container">
-                    <h1><a href="/admin/users">{this.props.title}</a></h1>
+                    <h1><a href="/admin/users">{title}</a></h1>
                     <ReactCSSTransitionGroup style={styleColor}
                                              component="div"
                                              className="btn-group"
@@ -325,9 +326,61 @@ var Index = React.createClass({
                                              role="group" aria-label="...">
                     {buttons}
                     </ReactCSSTransitionGroup>
-                    {comp.addUser}
-                    {comp.default}
-                    {comp.user}
+                    {addUser}
+                    <TableBody rows={users}></TableBody>
+                    <LogoutButton></LogoutButton>
+                </div>
+                <div className="debug">{this.props.debug}</div>
+            </Layout>
+        );
+    }
+});
+
+var StartIndex = React.createClass({
+    render: function render() {
+        var users = this.props.users;
+        var title = this.props.title;
+
+        var styleColor = {
+            marginBottom: '10px'
+        };
+
+        var buttons;
+        if(this.state.ready){
+            buttons = (
+                <span>
+                    <a href='/admin/users' className="btn btn-default">foo</a>
+                    <a href='/admin/users/add' className="btn btn-default">Add</a>
+                    <button className="btn btn-default" onClick={this.remove}>Remove</button>
+                    <button className="btn btn-default" onClick={this.sort}>Sort</button>
+                    <button className="btn btn-default" onClick={this.callAPI}>CallAPI</button>
+                </span>
+            )
+        }
+
+        var addUser;
+
+        if(this.state.router.route === 'addUser'){
+            addUser = (
+                <div style={{margin: '20px 0'}}>
+                    <UserAdd></UserAdd>
+                </div>
+            )
+        }
+
+        return (
+            <Layout title={title}>
+                <div className="container">
+                    <h1><a href="/admin/users">{title}</a></h1>
+                    <ReactCSSTransitionGroup style={styleColor}
+                                             component="div"
+                                             className="btn-group"
+                                             transitionName="example"
+                                             role="group" aria-label="...">
+                        {buttons}
+                    </ReactCSSTransitionGroup>
+                    {addUser}
+                    <TableBody rows={users}></TableBody>
                     <LogoutButton></LogoutButton>
                 </div>
                 <div className="debug">{this.props.debug}</div>

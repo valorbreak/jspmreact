@@ -39,9 +39,11 @@ router.get('/:id', requireLogin, function (req, res) {
     var userid = req.params.id;
     res.locals.params = req.params;
 
-    User.findByUsername(userid)
+    var options = {fields: {_id:0,password:0}};
+
+    User.findByUsername(userid,options)
         .then(function(result){
-            res.render('user', {user: result, state: 'addUser'});
+            res.render('userprofile', {title:result.username,user: result});
         })
         .catch(function(err){
             res.json(err);

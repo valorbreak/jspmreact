@@ -156,9 +156,10 @@ User.findAll = function (searchObject,options) {
     });
 };
 
-User.findByUsername = function (username){
+User.findByUsername = function (username, options){
+    options = options || {};
     return new PromiseJS(function(resolve,reject){
-        db.findOne({username:username}, function(err,res){
+        db.findOne({username:username}, options, function(err,res){
             if(err){
                 console.error(' User Object: can\'t find username' );
                 resolve(err);
