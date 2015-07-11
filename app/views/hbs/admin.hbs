@@ -19,12 +19,12 @@
     oReq.open("get", "/api/users", true);
     oReq.send();
 //
-//    fetch('/users',{method:'get', credentials: 'same-origin'})
-//            .then(function(response) {
-//                return response.text()
-//            }).then(function(body) {
-//                console.log(body,'body');
-//                console.log(sessid,'sessid');
-//            });
+    fetch('/users',{method:'get', credentials: 'same-origin'})
+            .then(function(response) {
+                return response.text()
+            }).then(function(body) {
+                console.log(body,'body');
+                console.log(sessid,'sessid');
+            });
 </script>
 

@@ -81,8 +81,87 @@ var TableRow = React.createClass({
 // Backbone AppRouter
 var AppRouter;
 
-var Index = React.createClass({
+var UserAdd = React.createClass({
     getInitialState: function() {
+        return {
+            ready: false
+        }
+    },
+    handleSubmit: function(e) {
+        e.preventDefault();
+
+        var formObj = {
+            username: React.findDOMNode(this.refs.username).value.trim(),
+            password: React.findDOMNode(this.refs.password).value,
+            email: React.findDOMNode(this.refs.email).value.trim()
+        };
+
+        console.log(formObj,'obj');
+
+        // TODO: send request to the server
+
+        React.findDOMNode(this.refs.username).value = '';
+        React.findDOMNode(this.refs.password).value = '';
+
+        return;
+    },
+    handleChange: function(e){
+        console.log('onChange',e.target.value,e);
+    },
+    componentDidMount: function(){
+        this.state.ready = true;
+        this.setState(this.state);
+    },
+    render: function() {
+        var button;
+        if(this.state.ready){
+            button = (<button className="btn btn-default" onClick={this.handleSubmit}>Submit</button>);
+        } else {
+            button = (<button className="btn btn-default" disabled="disabled">Loading ...</button>);
+        }
+
+        return (
+            <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
+                <div className="form-group">
+                    <label for="exampleInputPassword1">Username</label>
+                    <input type="text" ref="username" className="form-control" id="exampleInputPassword1" placeholder="Username" />
+                </div>
+                <div className="form-group">
+                    <label for="exampleInputEmail1">Password</label>
+                    <input type="password" ref="password" className="form-control" id="exampleInputEmail1" placeholder="Password" />
+                </div>
+                <div className="form-group">
+                    <label for="exampleInputPassword1">Email</label>
+                    <input type="email" ref="email" className="form-control" id="exampleInputPassword1" placeholder="Email" />
+                </div>
+                {button}
+            </form>
+        )
+    }
+});
+//
+//var UserActions = {
+//
+//};
+//
+//var UserStore = _.extend({}, EventEmitter.prototype, {
+//    getUsers: function() {
+//
+//    },
+//    getUserCount: function() {
+//
+//    }
+//});
+//var UserStore = _.extend({}, EventEmitter.prototype,{
+//
+//});
+
+var Index = React.createClass({
+    getDefaultProps: function() {
+        //
+    },
+    getInitialState: function() {
+        // Running on Both Client and Server
 
         // Routing is done through Backbone
         var Router = Backbone.Router.extend({
@@ -122,8 +201,6 @@ var Index = React.createClass({
                 });
 
                 if(matched) {
-                    // NEW: Extracts the params using the internal
-                    // function _extractParameters
                     params = Router._extractParameters(route, fragment);
                     route = matched[1];
                 }
@@ -143,8 +220,44 @@ var Index = React.createClass({
             url: this.props.url,
             ready: false,
             addUser: false,
-            router: AppRouter.current(this.props.url.substr(1))
+            router: AppRouter.current(this.props.url.substr(1)),
+            stores: {}
         }
+    },
+    componentWillMount: function(){
+        // Running on Both Client and Server
+
+        // But make it only work for the server
+        if(!clientCode){
+            console.log(this.state,'state');
+            console.log(this.props,'props');
+        }
+    },
+    componentDidMount: function(){
+        // Running on Client after server render
+        var compDOM = React.findDOMNode(this);
+
+        // Backbone Configuration
+        // Enable HTML5 History API - Push State
+        $(compDOM).on("click", "a[href^='/']", function(e) {
+            var href, url;
+            href = $(e.currentTarget).attr('href');
+            if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                e.preventDefault();
+                url = href.replace(/^\//, '').replace('\#\!\/', '');
+                AppRouter.navigate(url, {
+                    trigger: true
+                });
+                return false;
+            }
+        });
+
+        Backbone.history.start({pushState:true});
+
+        this.state.ready = true;
+        console.log(this.state,'state');
+        console.log(this.props,'props');
+        this.setState(this.state);
     },
     callAPI: function(){
         var api = Client.api;
@@ -171,41 +284,16 @@ var Index = React.createClass({
         this.props.users = users.sort(objSort('email'));
         this.setProps(this.props);
     },
-    componentDidMount: function(){
-        var compDOM = React.findDOMNode(this);
-
-        // Backbone Configuration
-        // Enable HTML5 History API - Push State
-        $(compDOM).on("click", "a[href^='/']", function(e) {
-            var href, url;
-            href = $(e.currentTarget).attr('href');
-            if (!e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
-                e.preventDefault();
-                url = href.replace(/^\//, '').replace('\#\!\/', '');
-                AppRouter.navigate(url, {
-                    trigger: true
-                });
-                return false;
-            }
-        });
-
-        Backbone.history.start({pushState:true});
-
-        this.state.ready = true;
-        this.setState(this.state);
-    },
     render: function render() {
         var users = this.props.users;
         var title = this.props.title;
-        var ready = this.state.ready;
-        this.state.url = this.props.url;
 
         var styleColor = {
             marginBottom: '10px'
         };
 
         var buttons;
-        if(ready){
+        if(this.state.ready){
             buttons = (
                 <span>
                     <a href='/admin/users' className="btn btn-default">foo</a>
@@ -217,11 +305,13 @@ var Index = React.createClass({
             )
         }
 
-        var userAdd;
+        var addUser;
 
         if(this.state.router.route === 'addUser'){
-            userAdd = (
-                <div>User add form</div>
+            addUser = (
+                <div style={{margin: '20px 0'}}>
+                    <UserAdd></UserAdd>
+                </div>
             )
         }
 
@@ -236,7 +326,7 @@ var Index = React.createClass({
                                              role="group" aria-label="...">
                     {buttons}
                     </ReactCSSTransitionGroup>
-                    {userAdd}
+                    {addUser}
                     <TableBody rows={users}></TableBody>
                     <LogoutButton></LogoutButton>
                 </div>

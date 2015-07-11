@@ -7,7 +7,7 @@ var entityRoute = require('./entity');
 var User = require('../models/user'); // add functions to the String.prototype
 
 /* GET users listing. */
-router.route('/users')
+router.route('/user')
     .get(function (req, res) {
         if( (req.session && req.session.user) || req.headers.demo){
             var users = User.findAll({}, {limit:10,sort:'username', fields: {_id:0,password:0}});

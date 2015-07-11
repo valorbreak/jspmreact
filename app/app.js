@@ -100,6 +100,7 @@ app.use(templateLocals);
 
 function templateLocals(req,res,next){
     res.locals.baseUrl = '/r';
+    res.locals.params = req.params;
     res.locals.url = req.url;
     res.locals.query = req.query;
     next();
