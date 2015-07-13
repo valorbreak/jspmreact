@@ -128,14 +128,12 @@ var IndexView = React.createClass({
     }
 });
 
-
 // Global Variables
 window['__DROPKICK__'] = {
     Actions: UserActions
 };
 
-export var UserActions = UserActions;
-export var IndexView = IndexView;
+export default IndexView;
 
 
 //var TableStore = {

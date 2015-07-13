@@ -411,7 +411,7 @@ var Index = React.createClass({
         }
 
         return (
-            <Layout title={this.props.title}>
+            <Layout title={this.props.title} srcScript={'user'}>
                 <div className="container-fluid">
                     <h1><a href="/admin/users">{this.props.title}</a></h1>
                     <ReactCSSTransitionGroup style={styleColor}
