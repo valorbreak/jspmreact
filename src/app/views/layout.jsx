@@ -16,7 +16,7 @@ var Layout = React.createClass({
             {this.props.children}
             <script src="/r/jspm_packages/system.js"></script>
             <script src="/r/config.js"></script>
-            <script src="/r/index.js"></script>
+            <script type="text/javascript" dangerouslySetInnerHTML={{__html:`System.import('app/mainuser'); var test = function() { return 1;}`}}></script>
             </body>
             </html>
         );

@@ -45,10 +45,3 @@ var DOMloaded_event = new Event('DOMContentLoaded');
 document.addEventListener('DOMloaded_event', function(e){ console.log(e); });
 document.dispatchEvent(DOMloaded_event);
 })();
-
-// Global Variables
-window['__DROPKICK__'] = {
-    _ : _,
-    api: api,
-    Backbone: Backbone
-};

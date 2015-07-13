@@ -43,10 +43,9 @@ var UserActions = {
     },
 
     removeUsers: function(data){
-        var deletedUsers = _.values(data)
-                    .map(function(data){
-                        return data.username;
-                    });
+        var deletedUsers =  data.map(function(data){
+                                return data.username;
+                            });
         var fetchPromises = deletedUsers.map(function(username){
             return fetch('/api/user', {
                 method: 'delete',
@@ -104,10 +103,11 @@ var UsersStore = EventEmitter({
     }
 });
 
-var indexClient = React.createClass({
+var IndexView = React.createClass({
     getInitialState: function() {
         // We are setting data from __REACT_ENGINE__
         // @todo: Replace with immutable props
+
         return _.cloneDeep(this.props);
     },
     componentDidMount: function() {
@@ -128,9 +128,14 @@ var indexClient = React.createClass({
     }
 });
 
-window['__DROPKICK__'].Actions = UserActions;
 
-export default indexClient;
+// Global Variables
+window['__DROPKICK__'] = {
+    Actions: UserActions
+};
+
+export var UserActions = UserActions;
+export var IndexView = IndexView;
 
 
 //var TableStore = {

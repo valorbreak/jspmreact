@@ -15,31 +15,33 @@ import Styles from './assets/styles';
 
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
-var Client;
+var Client = {};
 
-if(clientCode){
-    Client = clientCode.dropkick;
+function startup(){
+    // Set Client Side Code
+    Client = window['__DROPKICK__'];
 }
 
 var TableStore = {
-    items: {},
-    addItem: function(data,key){
-        this.items[key] = data;
-        sessionStorage.setItem('userStore',JSON.stringify(this.items));
-    },
-    removeItem: function(key){
-        delete this.items[key];
-        sessionStorage.setItem('userStore',JSON.stringify(this.items));
-    },
-    fetchItem: function(){
-        try{
-            this.items = JSON.parse(sessionStorage.getItem('userStore')) || {};
-        } catch(e){
-            this.items = {};
+    items: [],
+    addItem: function(data){
+        if(!this.checkItem(data)){
+            this.items.push(data);
         }
+    },
+    removeItem: function(data){
+        if(this.checkItem(data)){
+            var index = this.getItemIndex(data);
+            this.items.splice(index,1);     // Proper way to remove elements in an Array
+        }
+    },
+    checkItem: function(data){
+        return (this.items.indexOf(data) >= 0);
+    },
+    getItemIndex: function(data){
+        return this.items.indexOf(data);
     }
 };
-
 
 var TableBody = React.createClass({
     getInitialState: function(){
@@ -52,10 +54,15 @@ var TableBody = React.createClass({
     },
     componentDidUpdate: function(props,state){
         var thisTable = React.findDOMNode(this); //var thisTable = this.getDOMNode();
-        //thisTable.style.color = '#309';
+        thisTable.style.color = '#309';
     },
-    onRowClick: function(){
-        console.log(TableStore,'rows');
+    onRowClick: function(row){
+        if(!TableStore.checkItem(row)){
+            TableStore.addItem(row);
+        } else {
+            TableStore.removeItem(row);
+        }
+        this.setState(this.state);
     },
     render: function () {
         var rows = this.props.rows || [];
@@ -63,8 +70,9 @@ var TableBody = React.createClass({
         var self = this;
 
         var computedRows = rows.map(function(row,i){
+            var selected = (TableStore.checkItem(row));
             return (
-                <TableRow row={row} key={i} onClick={self.onRowClick} selectKey={i}></TableRow>
+                <TableRow row={row} key={i} selected={selected} onClick={self.onRowClick} selectKey={i}></TableRow>
             )
         });
         return (
@@ -97,35 +105,27 @@ var TableRow = React.createClass({
             selected: false
         }
     },
-    componentWillUnmount: function(){
-        var thisTable = React.findDOMNode(this);
-        //console.log('will unmount');
-        thisTable.style.background = '#890';
-    },
-    componentWillLeave: function(){
-        console.log('will leave');
-    },
     componentDidUpdate: function(props,state){
-        var thisTable = React.findDOMNode(this);
+
     },
     handleClick: function(e){
-        this.state.selected = !this.state.selected;
+        //this.state.selected = !this.state.selected;
 
         // Yep, you can change props this way,
         // this.props.row._selected= this.state._selected;
         // However it's not recommend,
         // The better way is to push selected rows into a STORE
-        if(this.state.selected){
-            TableStore.addItem(this.props.row,this.props.selectKey);
-        } else {
-            TableStore.removeItem(this.props.selectKey);
-        }
+        //if(this.state.selected){
+        //    TableStore.addItem(this.props.row,this.props.selectKey);
+        //} else {
+        //    TableStore.removeItem(this.props.selectKey);
+        //}
 
         if(this.props.onClick){
-            this.props.onClick(this.props.row,this.state);
+            this.props.onClick(this.props.row);
         }
 
-        this.setState(this.state);
+        //this.setState(this.state);
     },
     noop: function(){},
     render: function render() {
@@ -134,7 +134,7 @@ var TableRow = React.createClass({
 
         var localStyle = {};
 
-        if(this.state.selected){
+        if(this.props.selected){
             localStyle.tr = Styles.tr;
             localStyle.a = Styles.aHover;
         } else {
@@ -143,7 +143,7 @@ var TableRow = React.createClass({
 
         return (
             <tr style={localStyle.tr} onClick={this.handleClick}>
-                <td><input type="checkbox" onChange={this.noop} checked={this.state.selected} /></td>
+                <td><input type="checkbox" onChange={this.noop} checked={this.props.selected} /></td>
                 <td><a style={localStyle.a} href={userLink}>{row.username}</a></td>
                 <td>{row.email}</td>
                 <td>{ new Date(row.created).toDateString() }</td>
@@ -343,6 +343,7 @@ var Index = React.createClass({
     componentDidMount: function(){
         Backbone.history.start({pushState:true});
 
+        startup();
         this.state.ready = true;
         this.setState(this.state);
     },
