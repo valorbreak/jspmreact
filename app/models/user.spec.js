@@ -83,15 +83,16 @@ describe('User Model - Using MONGODB', function(){
 
     });
 
-
     it('User can be deleted from the database', function(done){
         newDB.then(findChangedUsername)
             .then(function(item){
                 var user = new User(item);
-                user.remove();
+                return user.remove();
+            })
+            .then(function(res){
+                console.log(res);
                 done();
             });
     });
-
 
 });

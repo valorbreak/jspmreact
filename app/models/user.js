@@ -133,7 +133,16 @@ User.prototype.sanitize = function(data){
 };
 
 User.prototype.remove = function(){
-    db.remove({username: this.data.username});
+    var username = this.data.username;
+    return new PromiseJS(function(resolve,reject) {
+        db.remove({username: username},function(err,res){
+            if(err){
+                console.error(' Error Occured While Deleting' );
+                reject(err);
+            }
+            resolve(res);
+        });
+    });
 };
 
 /**
@@ -159,10 +168,10 @@ User.findAll = function (searchObject,options) {
 User.findByUsername = function (username, options){
     options = options || {};
     return new PromiseJS(function(resolve,reject){
-        db.findOne({username:username}, options, function(err,res){
+        db.findOne({username:username.toLowerCase()}, options, function(err,res){
             if(err){
                 console.error(' User Object: can\'t find username' );
-                resolve(err);
+                reject(err);
             }
             resolve(res);
 

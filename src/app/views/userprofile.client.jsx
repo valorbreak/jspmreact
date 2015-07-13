@@ -18,6 +18,7 @@ var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 var UserActions = {
     doSomething: function(){
         console.log('doing something');
+        UsersStore.getUsers();
     },
     getUsers: function() {
         return fetch('/api/user',{credentials: 'same-origin'})
@@ -49,6 +50,9 @@ var UserActions = {
     },
     sort: function(data){
         console.log(data,'sorting');
+    },
+    filterUser: function() {
+
     }
 };
 
@@ -57,6 +61,7 @@ var UsersStore = _.extend({}, EventEmitter.prototype, {
 
     // Return Product data
     getUsers: function() {
+        console.log('getting users');
         return _product;
     },
     // Emit Change event
@@ -75,20 +80,21 @@ var UsersStore = _.extend({}, EventEmitter.prototype, {
     }
 });
 
-console.log(UsersStore,'rpower');
-
 var indexClient = React.createClass({
+    getInitialState: function() {
+        return this.props;
+    },
     // Listen for changes
     componentDidMount: function() {
-        //ShoeStore.addChangeListener(this._onChange);
+        UsersStore.addChangeListener(this._onChange);
     },
 
     // Unbind change listener
     componentWillUnmount: function() {
-        //ShoesStore.removeChangeListener(this._onChange);
+        UsersStore.removeChangeListener(this._onChange);
     },
     render: function() {
-        return (<UserProfileServer {...this.props}></UserProfileServer>);
+        return (<UserProfileServer {...this.state}></UserProfileServer>);
     },
     _onChange: function() {
         this.setState(getAppState());

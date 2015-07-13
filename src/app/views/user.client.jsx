@@ -15,9 +15,11 @@ import UserServer from './user.jsx';
 
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
+// Actions -> Stores -> Views -> Actions
+
 var UserActions = {
     doSomething: function(){
-        console.log('doing something');
+        console.log('do nothing');
     },
     getUsers: function() {
         return fetch('/api/user',{credentials: 'same-origin'})
@@ -30,7 +32,7 @@ var UserActions = {
     },
     registerUser: function(data){
         return fetch('/api/user', {
-            method: 'delete',
+            method: 'put',
             credentials: 'same-origin',
             headers: {
                 'Accept': 'application/json',
@@ -38,54 +40,116 @@ var UserActions = {
             },
             body: JSON.stringify(data)
         });
+    },
 
+    removeUsers: function(data){
+        var deletedUsers = _.values(data)
+                    .map(function(data){
+                        return data.username;
+                    });
+        var fetchPromises = deletedUsers.map(function(username){
+            return fetch('/api/user', {
+                method: 'delete',
+                credentials: 'same-origin',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({username:username})
+            });
+        });
+
+        return Promise.all(fetchPromises);
+    },
+    promiseUser: function(data){
+        var fetchPromises = [fetch('/api/user'),fetch('/api/user')];
+
+        return Promise.all(fetchPromises);
+    },
+    refreshUser: function(){
+        return fetch('/api/user',{credentials: 'same-origin'})
+            .then(function(response) {
+                return response.text();
+            })
+            .then(function(body) {
+                UsersStore._users = JSON.parse(body);
+                UsersStore.emitChange();
+
+                return JSON.parse(body);
+            });
     },
     sort: function(data){
         console.log(data,'sorting');
     }
 };
 
-// Extend ProductStore with EventEmitter to add eventing capabilities
-var UsersStore = _.extend({}, EventEmitter.prototype, {
-
+// Extend UsersStore with EventEmitter to add eventing capabilities
+var UsersStore = EventEmitter({
     // Return Product data
     getUsers: function() {
-        return _product;
+        return this._users;
     },
-    // Emit Change event
     emitChange: function() {
+        // Emit Change event
         this.emit('change');
     },
-
-    // Add change listener
     addChangeListener: function(callback) {
+        // Add change listener
         this.on('change', callback);
     },
 
-    // Remove change listener
     removeChangeListener: function(callback) {
+        // Remove change listener
         this.removeListener('change', callback);
     }
 });
 
 var indexClient = React.createClass({
-    // Listen for changes
-    componentDidMount: function() {
-        //ShoeStore.addChangeListener(this._onChange);
+    getInitialState: function() {
+        // We are setting data from __REACT_ENGINE__
+        // @todo: Replace with immutable props
+        return _.cloneDeep(this.props);
     },
-
-    // Unbind change listener
+    componentDidMount: function() {
+        // Listen for changes
+        UsersStore.addChangeListener(this._onChange);
+    },
     componentWillUnmount: function() {
-        //ShoesStore.removeChangeListener(this._onChange);
+        // Unbind change listener
+        UsersStore.removeChangeListener(this._onChange);
     },
     render: function() {
-        return (<UserServer {...this.props}></UserServer>);
+        console.log('refresh props');
+        return (<UserServer {...this.state}></UserServer>);
     },
     _onChange: function() {
-        this.setState(getAppState());
+        this.state.users = UsersStore._users;
+        this.setState(this.state);
     }
 });
 
 window['__DROPKICK__'].Actions = UserActions;
 
 export default indexClient;
+
+
+//var TableStore = {
+//    items: {},
+//    addItem: function(data,key){
+//        this.items[key] = data;
+//        sessionStorage.setItem('userStore',JSON.stringify(this.items));
+//    },
+//    removeItem: function(key){
+//        delete this.items[key];
+//        sessionStorage.setItem('userStore',JSON.stringify(this.items));
+//    },
+//    fetchItem: function(){
+//        try{
+//            this.items = JSON.parse(sessionStorage.getItem('userStore')) || {};
+//        } catch(e){
+//            this.items = {};
+//        }
+//    }
+//};
+//
+//TableStore.fetchItem();

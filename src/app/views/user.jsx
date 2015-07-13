@@ -11,6 +11,7 @@ import AdminHeaderMenu from './components/admin-header-menu.jsx';
 import clientCode from './client';
 import Backbone from 'backbone';
 import _ from 'lodash';
+import Styles from './assets/styles';
 
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
@@ -19,6 +20,26 @@ var Client;
 if(clientCode){
     Client = clientCode.dropkick;
 }
+
+var TableStore = {
+    items: {},
+    addItem: function(data,key){
+        this.items[key] = data;
+        sessionStorage.setItem('userStore',JSON.stringify(this.items));
+    },
+    removeItem: function(key){
+        delete this.items[key];
+        sessionStorage.setItem('userStore',JSON.stringify(this.items));
+    },
+    fetchItem: function(){
+        try{
+            this.items = JSON.parse(sessionStorage.getItem('userStore')) || {};
+        } catch(e){
+            this.items = {};
+        }
+    }
+};
+
 
 var TableBody = React.createClass({
     getInitialState: function(){
@@ -31,33 +52,51 @@ var TableBody = React.createClass({
     },
     componentDidUpdate: function(props,state){
         var thisTable = React.findDOMNode(this); //var thisTable = this.getDOMNode();
-        thisTable.style.color = '#309';
+        //thisTable.style.color = '#309';
+    },
+    onRowClick: function(){
+        console.log(TableStore,'rows');
     },
     render: function () {
         var rows = this.props.rows || [];
+
+        var self = this;
+
         var computedRows = rows.map(function(row,i){
             return (
-                <TableRow row={row} key={i}></TableRow>
+                <TableRow row={row} key={i} onClick={self.onRowClick} selectKey={i}></TableRow>
             )
         });
         return (
             <table className="table table-responsive table-striped">
                 <thead>
                 <tr>
+                    <th>_</th>
                     <th>Username</th>
                     <th>Email</th>
                     <th>Date Created</th>
                 </tr>
                 </thead>
                 <ReactCSSTransitionGroup transitionName="example" component="tbody">
+                    <tbody>
                     {computedRows}
+                    </tbody>
                 </ReactCSSTransitionGroup>
             </table>
         )
     }
 });
 
+//<ReactCSSTransitionGroup transitionName="example" component="tbody">
+//    {computedRows}
+//</ReactCSSTransitionGroup>
+
 var TableRow = React.createClass({
+    getInitialState: function() {
+        return {
+            selected: false
+        }
+    },
     componentWillUnmount: function(){
         var thisTable = React.findDOMNode(this);
         //console.log('will unmount');
@@ -69,12 +108,43 @@ var TableRow = React.createClass({
     componentDidUpdate: function(props,state){
         var thisTable = React.findDOMNode(this);
     },
+    handleClick: function(e){
+        this.state.selected = !this.state.selected;
+
+        // Yep, you can change props this way,
+        // this.props.row._selected= this.state._selected;
+        // However it's not recommend,
+        // The better way is to push selected rows into a STORE
+        if(this.state.selected){
+            TableStore.addItem(this.props.row,this.props.selectKey);
+        } else {
+            TableStore.removeItem(this.props.selectKey);
+        }
+
+        if(this.props.onClick){
+            this.props.onClick(this.props.row,this.state);
+        }
+
+        this.setState(this.state);
+    },
+    noop: function(){},
     render: function render() {
         var row = this.props.row;
         var userLink = '/admin/user/'+ row.username;
+
+        var localStyle = {};
+
+        if(this.state.selected){
+            localStyle.tr = Styles.tr;
+            localStyle.a = Styles.aHover;
+        } else {
+            localStyle.tr = {}
+        }
+
         return (
-            <tr>
-                <td><a href={userLink}>{row.username}</a></td>
+            <tr style={localStyle.tr} onClick={this.handleClick}>
+                <td><input type="checkbox" onChange={this.noop} checked={this.state.selected} /></td>
+                <td><a style={localStyle.a} href={userLink}>{row.username}</a></td>
                 <td>{row.email}</td>
                 <td>{ new Date(row.created).toDateString() }</td>
             </tr>
@@ -85,45 +155,32 @@ var TableRow = React.createClass({
 // Backbone AppRouter
 var AppRouter;
 
-var UserAdd = React.createClass({
+var UserRegister = React.createClass({
     getInitialState: function() {
         return {
-            ready: false
+            ready: false,
+            info: false,
+            form: {}
         }
     },
     handleSubmit: function(e) {
         e.preventDefault();
 
-        var formObj = {
+        this.state.form = {
             username: React.findDOMNode(this.refs.username).value.trim(),
             password: React.findDOMNode(this.refs.password).value,
             email: React.findDOMNode(this.refs.email).value.trim()
         };
 
-        // Send request to the server
-        Client.Actions.registerUser(formObj)
-            .then(function(response) {
-                if(!response.ok){
-                    throw response;
-                }
-                return response.text();
-            })
-            .then(function(body) {
-                return JSON.parse(body);
-            })
-            .then(function(data){
-                React.findDOMNode(this.refs.username).value = '';
-                React.findDOMNode(this.refs.password).value = '';
-
-                AppRouter.navigate('/admin/users', {trigger: true});
-            }.bind(this))
-            .catch(function(response){
-                console.log(response, 'Something wrong happened');
-            });
-
+        this.props.onSubmit(this,function(response){
+            React.findDOMNode(this.refs.username).value = '';
+            React.findDOMNode(this.refs.password).value = '';
+            this.state.info = true;
+            this.setState(this.state);
+        }.bind(this));
     },
     handleChange: function(e){
-        console.log('onChange',e.target.value,e);
+        //console.log('onChange',e.target.value,e);
     },
     componentDidMount: function(){
         this.state.ready = true;
@@ -137,18 +194,24 @@ var UserAdd = React.createClass({
             button = (<button className="btn btn-default" disabled="disabled">Loading ...</button>);
         }
 
+        var info;
+        if(this.state.info){
+            info = (<div>info</div>)
+        }
+
         return (
             <form onSubmit={this.handleSubmit} onChange={this.handleChange}>
+                {info}
                 <div className="form-group">
-                    <label for="exampleInputPassword1">Username</label>
+                    <label htmlFor="exampleInputPassword1">Username</label>
                     <input type="text" ref="username" className="form-control" id="exampleInputPassword1" placeholder="Username" />
                 </div>
                 <div className="form-group">
-                    <label for="exampleInputEmail1">Password</label>
+                    <label htmlFor="exampleInputEmail1">Password</label>
                     <input type="password" ref="password" className="form-control" id="exampleInputEmail1" placeholder="Password" />
                 </div>
                 <div className="form-group">
-                    <label for="exampleInputPassword1">Email</label>
+                    <label htmlFor="exampleInputPassword1">Email</label>
                     <input type="email" ref="email" className="form-control" id="exampleInputPassword1" placeholder="Email" />
                 </div>
                 {button}
@@ -178,7 +241,7 @@ var MenuButtons = React.createClass({
         });
     },
     remove: function() {
-        Client.Actions.doSomething();
+        this.props.onRemove();
     },
     callAPI: function() {
         Client.Actions.getUsers()
@@ -273,8 +336,8 @@ var Index = React.createClass({
 
         // But make it only work for the server
         if(!clientCode){
-            console.log(this.state,'state');
-            console.log(this.props,'props');
+            //console.log(this.state,'state');
+            //console.log(this.props,'props');
         }
     },
     componentDidMount: function(){
@@ -283,25 +346,57 @@ var Index = React.createClass({
         this.state.ready = true;
         this.setState(this.state);
     },
+    onFormSubmit: function(self,callback){
+        // Send request to the server
+        Client.Actions.registerUser(self.state.form)
+            .then(function(response) {
+                if(!response.ok){
+                    throw response;
+                }
 
+                return response.text();
+            })
+            .then(function(body) {
+                return JSON.parse(body);
+            })
+            .then(function(data){
+                callback(data);
+
+                Client.Actions.refreshUser();
+                AppRouter.navigate('/admin/users', {trigger: true});
+            }.bind(self))
+            .catch(function(response){
+
+                callback(response);
+                console.log(response, 'Something wrong happened');
+            });
+    },
+    onRemove: function(){
+        Client.Actions.doSomething();
+        Client.Actions.removeUsers(TableStore.items)
+            .then(function(values) {
+                Client.Actions.refreshUser();
+            });
+    },
     render: function render() {
         var styleColor = {
             marginBottom: '10px'
         };
 
         var buttons;
+
         if(this.state.ready){
-            buttons = (<MenuButtons></MenuButtons>)
+            buttons = (<MenuButtons onRemove={this.onRemove}></MenuButtons>)
         }
 
         var comp = {};
 
         var route = this.state.router.route;
-        console.log(this.state.router,'route');
+
         if(route === 'addUser'){
             comp.addUser = (
                 <div style={{margin: '20px 0'}}>
-                    <UserAdd></UserAdd>
+                    <UserRegister onSubmit={this.onFormSubmit}></UserRegister>
                 </div>
             )
         } else if(route === 'user') {
@@ -316,7 +411,7 @@ var Index = React.createClass({
 
         return (
             <Layout title={this.props.title}>
-                <div className="container">
+                <div className="container-fluid">
                     <h1><a href="/admin/users">{this.props.title}</a></h1>
                     <ReactCSSTransitionGroup style={styleColor}
                                              component="div"

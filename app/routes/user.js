@@ -6,19 +6,19 @@ var User = require('../models/user');
 var requireLogin = require('./authrules').requireLogin;
 
 /* GET user listing. */
-router.get('/', requireLogin, function (req, res) {
-
-    // ...can be rendered to a string on the server...
-    console.log(req.query,'query');
-
-    User.findAll({},{limit:10,sort:'username', fields: {_id:0,password:0}})
-        .then(function(results){
-            res.render('user', {title:'Users', users:results});
-        })
-        .catch(function(err){
-            res.render('user', err);
-        });
-});
+//router.get('/', requireLogin, function (req, res) {
+//
+//    // ...can be rendered to a string on the server...
+//    console.log(req.query,'query');
+//
+//    User.findAll({},{limit:10,sort:'username', fields: {_id:0,password:0}})
+//        .then(function(results){
+//            res.render('user', {title:'Users', users:results});
+//        })
+//        .catch(function(err){
+//            res.render('user', err);
+//        });
+//});
 
 var React = require('react');
 
@@ -48,6 +48,7 @@ router.get('/:id', requireLogin, function (req, res) {
         .catch(function(err){
             res.json(err);
         });
+
 
 });
 

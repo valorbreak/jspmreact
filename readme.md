@@ -10,6 +10,7 @@
 - `jspm bundle app/main main-bundle.js --inject` - Semi Bundle
 - `jspm bundle-sfx app/main app.min.js --minify` - Production Bundle
 - unbundle `jspm unbundle`
+- or npm run jspm-bundle
 
 # Unit Testing
 - `mocha /**/*.spec.js`

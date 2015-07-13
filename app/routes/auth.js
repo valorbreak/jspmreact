@@ -106,7 +106,8 @@ router.route('/register')
                 .then(function(item){
                     if(item.ops[0].username){
                         let newUsername = item.ops[0].username;
-                        res.redirect('/user/'+newUsername);
+                        //res.redirect('/user/'+newUsername);
+                        res.redirect('/login');
                     } else {
                         retry('Error Occured');
                     }

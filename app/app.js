@@ -48,7 +48,7 @@ app.use(session({
     name: 'sessid',
     resave: false,
     cookie: {
-        httpOnly:true
+        httpOnly:false
     },
     saveUninitialized: false,
     store: new MongoStore({
@@ -118,7 +118,11 @@ app.use('/', routes);
  * __dirname = current directory where this file is located
  */
 var oneDay = 86400000;
-var staticOptions = { maxAge: oneDay, etag: false };
+
+var staticOptions = {
+    maxAge: oneDay,
+    etag: true
+};
 //var spaPath = path.join(__dirname, env.spaDir);
 
 app.use(express.static(path.join(__dirname, 'public'), staticOptions));
@@ -147,6 +151,7 @@ if (app.get('env') === 'development') {
             error: err
         });
     });
+    staticOptions.etag = false;
 }
 
 // production error handler

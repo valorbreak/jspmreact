@@ -6,38 +6,38 @@ var router = express.Router();
 var entityRoute = require('./entity');
 var User = require('../models/user'); // add functions to the String.prototype
 
+var csrf = require('csurf');
+var csrfProtection = csrf();
+
+let requireLoginApi = require('./authrules').requireLoginApi;
+
+router.use(requireLoginApi);
+
 /* GET users listing. */
 router.route('/user')
     .get(function (req, res) {
-        if( (req.session && req.session.user) || req.headers.demo){
-            var users = User.findAll({}, {limit:10,sort:'username', fields: {_id:0,password:0}});
-            users.then(function(items){
+        User.findAll({}, {limit:100,sort:'username', fields: {_id:0,password:0}})
+            .then(function(items){
                 res.json(items);
             },function(err){
                 res.json(err);
             });
-        } else{
-            res.status(404)        // HTTP status 404: NotFound
-                .json({message: '404 not found', code: 404});
-        }
     })
     .post(function(req,res){
         var jsonBody = req.body;
 
-        var foundPromise = User.findByUsername(jsonBody.username);
-
-        foundPromise.then(function(data){
-            jsonBody._id = data._id;
-            var savedUser = new User(jsonBody);
-            savedUser.save()
-                .then(function(data){
-                    res.json(data);
-                },function(err){
-                    res.json(err);
-                });
-        },function(err){
-            res.json(err);
-        });
+        User.findByUsername(jsonBody.username)
+            .then(function(data){
+                jsonBody._id = data._id;
+                var savedUser = new User(jsonBody);
+                return savedUser.save();
+            })
+            .then(function(data){
+                res.json(data);
+            })
+            .catch(function(err){
+                res.json(err);
+            });
     })
     .put(function(req,res){
         var jsonBody = req.body;
@@ -46,27 +46,46 @@ router.route('/user')
             var user = new User(jsonBody);
             user.setPassword(jsonBody.password);
 
-            user.save().then(function(response){
-                res.json(response);
-            },function(err){
-                res.json(err);
-            });
+            user.save()
+                .then(function(response){
+                    res.json(response);
+                },function(err){
+                    res.json(err);
+                });
 
         } else{
-            res.json({'error': 'Invalid Parameters'});
+            res.status(400)
+                .json({'error': 'Invalid Parameters'});
         }
 
     })
     .delete(function(req,res){
 
-        res.status(404)
-            .json({'nice':'nice'});
+        var jsonBody = req.body;
+        User.findByUsername(jsonBody.username)
+            .then(function(data){
+                var userEdit = new User(data);
+                return userEdit.remove();
+            })
+            .then(function(data){
+                res.json(data);
+            })
+            .catch(function(err){
+                res.status(400)
+                    .json(err);
+            });
 
+        //res.status(400)
+        //    .json({'nothing':'happened'});
     });
 
 
 /* Nest Routes */
 router.use('/entity', entityRoute);
+
+//router.get('/auth/token', function(req,res){
+//    res.json({'token': req.csrfToken()});
+//});
 
 module.exports = router;
 

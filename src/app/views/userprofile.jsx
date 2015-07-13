@@ -18,15 +18,53 @@ if(clientCode){
     Client = clientCode.dropkick;
 }
 
+var UserPropsItem = React.createClass({
+    render: function (){
+        return (
+            <dl>
+                <dt>{this.props.name}</dt>
+                <dd>{this.props.value}</dd>
+            </dl>
+        );
+    }
+});
+
+
+var UserProps = React.createClass({
+    sanitizer: function (value) {
+        if(_.isDate(value)){
+            value = value.toDateString();
+        } else if(_.isObject(value)){
+            value = _.values(value).join(' ');
+        }
+        return value;
+    },
+    render: function () {
+        var user = this.props.user || [];
+        var userProps = Object.keys(user).map(function(key,index){
+            user[key] = this.sanitizer(user[key]);
+            return (
+                <UserPropsItem key={index} name={key} value={user[key]}></UserPropsItem>
+            )
+        }.bind(this));
+
+        return (
+            <div>
+                {userProps}
+            </div>
+        )
+    }
+});
+
 var Index = React.createClass({
-    render: function render() {
-        console.log(this.props,'props');
+    render: function () {
         return (
             <Layout title={this.props.title}>
                 <div className="container">
                     <h1>{this.props.title}</h1>
-                    <p>User: {this.props.user.username}</p>
-                    <div className="debug">{this.props.debug}</div>
+                    <div>
+                        <UserProps user={this.props.user}></UserProps>
+                    </div>
                 </div>
             </Layout>
         );
