@@ -14,7 +14,7 @@ System.config({
     "npm:*": "jspm_packages/npm/*.js"
   },
   "bundles": {
-    "mainuser-bundle": [
+    "userx-bundle": [
       "npm:process@0.10.1/browser",
       "npm:react@0.13.3/lib/PooledClass",
       "npm:react@0.13.3/lib/Object.assign",
@@ -261,7 +261,7 @@ System.config({
       "npm:react@0.13.3/lib/LinkedStateMixin",
       "npm:react@0.13.3/lib/ReactWithAddons",
       "npm:react@0.13.3/addons",
-      "app/mainuser"
+      "app/user"
     ]
   }
 });

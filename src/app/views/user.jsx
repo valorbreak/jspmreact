@@ -211,6 +211,10 @@ var UserRegister = React.createClass({
                     <input type="password" ref="password" className="form-control" id="exampleInputEmail1" placeholder="Password" />
                 </div>
                 <div className="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" name="email"  className="form-control" id="exampleInputEmail1" placeholder="Email" />
+                </div>
+                <div className="form-group">
                     <label htmlFor="exampleInputPassword1">Email</label>
                     <input type="email" ref="email" className="form-control" id="exampleInputPassword1" placeholder="Email" />
                 </div>
@@ -414,13 +418,10 @@ var Index = React.createClass({
             <Layout title={this.props.title} srcScript={'user'}>
                 <div className="container-fluid">
                     <h1><a href="/admin/users">{this.props.title}</a></h1>
-                    <ReactCSSTransitionGroup style={styleColor}
-                                             component="div"
-                                             className="btn-group"
-                                             transitionName="example"
-                                             role="group" aria-label="...">
+
+                    <div className="btn-group">
                     {buttons}
-                    </ReactCSSTransitionGroup>
+                    </div>
                     {comp.addUser}
                     {comp.default}
                     {comp.user}

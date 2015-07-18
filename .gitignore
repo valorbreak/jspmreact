@@ -14,3 +14,4 @@ npm-debug.log
 *.bak
 licenses.txt
 janelia.js
+*.map
